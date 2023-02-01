@@ -915,7 +915,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "3";
+	app.meta.h["build"] = "5";
 	app.meta.h["company"] = "HaxeFlixel";
 	app.meta.h["file"] = "Project_1";
 	app.meta.h["name"] = "Project_1";
@@ -7256,59 +7256,15 @@ var GamePiece = function(x,y,player,size) {
 	switch(size) {
 	case 0:
 		PieceSize = 10;
-		var this1 = this.origin;
-		var x = 5;
-		var y = 5;
-		if(y == null) {
-			y = 0;
-		}
-		if(x == null) {
-			x = 0;
-		}
-		this1.set_x(x);
-		this1.set_y(y);
 		break;
 	case 1:
 		PieceSize = 30;
-		var this1 = this.origin;
-		var x = 15;
-		var y = 15;
-		if(y == null) {
-			y = 0;
-		}
-		if(x == null) {
-			x = 0;
-		}
-		this1.set_x(x);
-		this1.set_y(y);
 		break;
 	case 2:
 		PieceSize = 50;
-		var this1 = this.origin;
-		var x = 25;
-		var y = 25;
-		if(y == null) {
-			y = 0;
-		}
-		if(x == null) {
-			x = 0;
-		}
-		this1.set_x(x);
-		this1.set_y(y);
 		break;
 	default:
 		PieceSize = 30;
-		var this1 = this.origin;
-		var x = 15;
-		var y = 15;
-		if(y == null) {
-			y = 0;
-		}
-		if(x == null) {
-			x = 0;
-		}
-		this1.set_x(x);
-		this1.set_y(y);
 	}
 	this.makeGraphic(PieceSize,PieceSize,PlayerColor);
 };
@@ -7340,6 +7296,16 @@ GamePiece.prototype = $extend(flixel_FlxSprite.prototype,{
 		}
 		this.set_color(PlayerColor);
 	}
+	,setPosition: function(x,y) {
+		if(y == null) {
+			y = 0.0;
+		}
+		if(x == null) {
+			x = 0.0;
+		}
+		haxe_Log.trace("In Override",{ fileName : "source/GamePiece.hx", lineNumber : 81, className : "GamePiece", methodName : "setPosition"});
+		flixel_FlxSprite.prototype.setPosition.call(this,x,y);
+	}
 	,pickedUp: null
 	,update: function(elapsed) {
 		flixel_FlxSprite.prototype.update.call(this,elapsed);
@@ -7361,7 +7327,7 @@ GamePiece.prototype = $extend(flixel_FlxSprite.prototype,{
 		return this.pickedUp;
 	}
 	,moveTo: function(_gamePieceSlot) {
-		haxe_Log.trace("Move to " + Std.string(_gamePieceSlot.getCenter().x) + "," + Std.string(_gamePieceSlot.getCenter().y),{ fileName : "source/GamePiece.hx", lineNumber : 112, className : "GamePiece", methodName : "moveTo"});
+		haxe_Log.trace("Move to " + Std.string(_gamePieceSlot.getCenter().x) + "," + Std.string(_gamePieceSlot.getCenter().y),{ fileName : "source/GamePiece.hx", lineNumber : 118, className : "GamePiece", methodName : "moveTo"});
 	}
 	,__class__: GamePiece
 });
@@ -7398,6 +7364,16 @@ GamePieceSlot.prototype = $extend(flixel_FlxSprite.prototype,{
 	,slotsFilled: null
 	,slotsSizes: null
 	,pieces: null
+	,setPosition: function(x,y) {
+		if(y == null) {
+			y = 0.0;
+		}
+		if(x == null) {
+			x = 0.0;
+		}
+		haxe_Log.trace("In Override",{ fileName : "source/GamePieceSlot.hx", lineNumber : 38, className : "GamePieceSlot", methodName : "setPosition"});
+		flixel_FlxSprite.prototype.setPosition.call(this,x - (this.get_width() / 2 | 0),y - (this.get_height() / 2 | 0));
+	}
 	,setColor: function(_color) {
 		this.sprite.set_color(_color);
 	}
@@ -7416,13 +7392,13 @@ GamePieceSlot.prototype = $extend(flixel_FlxSprite.prototype,{
 	}
 	,placePiece: function(_gamePiece) {
 		if(this.slotsSizes.get(0) == _gamePiece.getPieceSize() && !this.slotsFilled.get(0)) {
-			haxe_Log.trace("Slot avalible",{ fileName : "source/GamePieceSlot.hx", lineNumber : 53, className : "GamePieceSlot", methodName : "placePiece"});
+			haxe_Log.trace("Slot avalible",{ fileName : "source/GamePieceSlot.hx", lineNumber : 62, className : "GamePieceSlot", methodName : "placePiece"});
 		}
 		if(this.slotsSizes.get(1) == _gamePiece.getPieceSize() && !this.slotsFilled.get(1)) {
-			haxe_Log.trace("Slot avalible",{ fileName : "source/GamePieceSlot.hx", lineNumber : 53, className : "GamePieceSlot", methodName : "placePiece"});
+			haxe_Log.trace("Slot avalible",{ fileName : "source/GamePieceSlot.hx", lineNumber : 62, className : "GamePieceSlot", methodName : "placePiece"});
 		}
 		if(this.slotsSizes.get(2) == _gamePiece.getPieceSize() && !this.slotsFilled.get(2)) {
-			haxe_Log.trace("Slot avalible",{ fileName : "source/GamePieceSlot.hx", lineNumber : 53, className : "GamePieceSlot", methodName : "placePiece"});
+			haxe_Log.trace("Slot avalible",{ fileName : "source/GamePieceSlot.hx", lineNumber : 62, className : "GamePieceSlot", methodName : "placePiece"});
 		}
 	}
 	,__class__: GamePieceSlot
@@ -8538,10 +8514,25 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 	_gamePieces: null
 	,_gamePlaySlots: null
 	,_gameStartSlots: null
+	,_gamePlayers: null
+	,_tempPlayer: null
 	,create: function() {
 		flixel_FlxState.prototype.create.call(this);
 		var _screenCenterX = flixel_FlxG.width / 2 | 0;
 		var _screenCenterY = flixel_FlxG.height / 2 | 0;
+		this.createAlignGrid();
+		this._gamePlayers = new flixel_group_FlxTypedGroup(4);
+		this._gamePlayers.add(new Player(0,_screenCenterX - 200,_screenCenterY));
+		this._gamePlayers.add(new Player(1,_screenCenterX + 200,_screenCenterY));
+		this.add(this._gamePlayers);
+		this._gamePlayers.members[0].setAngle(90);
+		this._gamePlayers.members[1].setAngle(-90);
+		var _g = 0;
+		var _g1 = this._gamePlayers.length;
+		while(_g < _g1) {
+			var i = _g++;
+			this.add(this._gamePlayers.members[i].getPieceSlots());
+		}
 		this._gamePlaySlots = new flixel_group_FlxTypedGroup(9);
 		this._gamePlaySlots.add(new GamePieceSlot(_screenCenterX + 100,_screenCenterY - 100));
 		this._gamePlaySlots.add(new GamePieceSlot(_screenCenterX,_screenCenterY - 100));
@@ -8559,20 +8550,6 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 			this._gamePlaySlots.members[i].setColor(-16711681);
 		}
 		this.add(this._gamePlaySlots);
-		this._gamePieces = new flixel_group_FlxTypedGroup(12);
-		this._gamePieces.add(new GamePiece(_screenCenterX - 200,_screenCenterY - 100,0));
-		this._gamePieces.add(new GamePiece(_screenCenterX - 200,_screenCenterY,0));
-		this._gamePieces.add(new GamePiece(_screenCenterX - 200,_screenCenterY + 100,0));
-		this._gamePieces.add(new GamePiece(_screenCenterX + 200,_screenCenterY - 100,1));
-		this._gamePieces.add(new GamePiece(_screenCenterX + 200,_screenCenterY,1));
-		this._gamePieces.add(new GamePiece(_screenCenterX + 200,_screenCenterY + 100,1));
-		this._gamePieces.add(new GamePiece(_screenCenterX - 100,_screenCenterY + 200,2));
-		this._gamePieces.add(new GamePiece(_screenCenterX,_screenCenterY + 200,2));
-		this._gamePieces.add(new GamePiece(_screenCenterX + 100,_screenCenterY + 200,2));
-		this._gamePieces.add(new GamePiece(_screenCenterX - 100,_screenCenterY - 200,3));
-		this._gamePieces.add(new GamePiece(_screenCenterX,_screenCenterY - 200,3));
-		this._gamePieces.add(new GamePiece(_screenCenterX + 100,_screenCenterY - 200,3));
-		this.add(this._gamePieces);
 	}
 	,update: function(elapsed) {
 		flixel_FlxState.prototype.update.call(this,elapsed);
@@ -8582,7 +8559,7 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 			while(_g < _g1) {
 				var i = _g++;
 				if(flixel_FlxG.mouse.overlaps(this._gamePieces.members[i])) {
-					haxe_Log.trace("Piece " + (i == null ? "null" : "" + i) + " Up",{ fileName : "source/PlayState.hx", lineNumber : 75, className : "PlayState", methodName : "update"});
+					haxe_Log.trace("Piece " + (i == null ? "null" : "" + i) + " Up",{ fileName : "source/PlayState.hx", lineNumber : 107, className : "PlayState", methodName : "update"});
 					this._gamePieces.members[i].onGrab();
 				}
 			}
@@ -8593,7 +8570,7 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 			while(_g < _g1) {
 				var i = _g++;
 				if(flixel_FlxG.mouse.overlaps(this._gamePieces.members[i])) {
-					haxe_Log.trace("Piece " + (i == null ? "null" : "" + i) + " Down",{ fileName : "source/PlayState.hx", lineNumber : 89, className : "PlayState", methodName : "update"});
+					haxe_Log.trace("Piece " + (i == null ? "null" : "" + i) + " Down",{ fileName : "source/PlayState.hx", lineNumber : 121, className : "PlayState", methodName : "update"});
 					this._gamePieces.members[i].onDrop();
 				}
 				var _g2 = 0;
@@ -8601,13 +8578,633 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 				while(_g2 < _g3) {
 					var j = _g2++;
 					if(this._gamePieces.members[i].overlaps(this._gamePlaySlots.members[j])) {
-						haxe_Log.trace("On Slot " + (j == null ? "null" : "" + j),{ fileName : "source/PlayState.hx", lineNumber : 99, className : "PlayState", methodName : "update"});
+						haxe_Log.trace("On Slot " + (j == null ? "null" : "" + j),{ fileName : "source/PlayState.hx", lineNumber : 131, className : "PlayState", methodName : "update"});
 					}
 				}
 			}
 		}
 	}
+	,createAlignGrid: function() {
+		var slotOffset = 100;
+		var playerOffset = 100;
+		var _screenCenterX = flixel_FlxG.width / 2 | 0;
+		var _screenCenterY = flixel_FlxG.height / 2 | 0;
+		var _lineCH = new flixel_FlxSprite();
+		_lineCH.makeGraphic(1280,1,-1);
+		_lineCH.setPosition(0,_screenCenterY);
+		this.add(_lineCH);
+		var _lineTH = new flixel_FlxSprite();
+		_lineTH.makeGraphic(1280,1,-1);
+		_lineTH.setPosition(0,_screenCenterY - slotOffset);
+		this.add(_lineTH);
+		var _lineTPH = new flixel_FlxSprite();
+		_lineTPH.makeGraphic(1280,1,-16744448);
+		_lineTPH.setPosition(0,_screenCenterY - slotOffset - playerOffset);
+		this.add(_lineTPH);
+		var _lineBH = new flixel_FlxSprite();
+		_lineBH.makeGraphic(1280,1,-1);
+		_lineBH.setPosition(0,_screenCenterY + slotOffset);
+		this.add(_lineBH);
+		var _lineBPH = new flixel_FlxSprite();
+		_lineBPH.makeGraphic(1280,1,-8388480);
+		_lineBPH.setPosition(0,_screenCenterY + slotOffset + playerOffset);
+		this.add(_lineBPH);
+		var _lineCV = new flixel_FlxSprite();
+		_lineCV.makeGraphic(1,720,-1);
+		_lineCV.setPosition(_screenCenterX,0);
+		this.add(_lineCV);
+		var _lineRV = new flixel_FlxSprite();
+		_lineRV.makeGraphic(1,720,-1);
+		_lineRV.setPosition(_screenCenterX + slotOffset,0);
+		this.add(_lineRV);
+		var _lineRPV = new flixel_FlxSprite();
+		_lineRPV.makeGraphic(1,720,-16776961);
+		_lineRPV.setPosition(_screenCenterX + slotOffset + playerOffset,0);
+		this.add(_lineRPV);
+		var _lineLV = new flixel_FlxSprite();
+		_lineLV.makeGraphic(1,720,-1);
+		_lineLV.setPosition(_screenCenterX - slotOffset,0);
+		this.add(_lineLV);
+		var _lineLPV = new flixel_FlxSprite();
+		_lineLPV.makeGraphic(1,720,-65536);
+		_lineLPV.setPosition(_screenCenterX - slotOffset - playerOffset,0);
+		this.add(_lineLPV);
+	}
 	,__class__: PlayState
+});
+var Player = function(player,x,y,_width,_height) {
+	if(_height == null) {
+		_height = 100;
+	}
+	if(_width == null) {
+		_width = 300;
+	}
+	if(y == null) {
+		y = 0;
+	}
+	if(x == null) {
+		x = 0;
+	}
+	flixel_FlxSprite.call(this,x - (_width / 2 | 0),y - (_height / 2 | 0));
+	switch(player) {
+	case 0:
+		var Alpha = 1;
+		if(Alpha == null) {
+			Alpha = 1;
+		}
+		var color = flixel_util_FlxColor._new();
+		var chroma = (1 - Math.abs(0.)) * 10;
+		var match = 0.5 - chroma / 2;
+		var Hue1 = 0;
+		var Chroma = chroma;
+		Hue1 %= 360;
+		var hueD = Hue1 / 60;
+		var mid = Chroma * (1 - Math.abs(hueD % 2 - 1)) + match;
+		Chroma += match;
+		switch(hueD | 0) {
+		case 0:
+			var Alpha1 = Alpha;
+			if(Alpha1 == null) {
+				Alpha1 = 1;
+			}
+			var Value = Math.round(Chroma * 255);
+			color &= -16711681;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 16;
+			var Value = Math.round(mid * 255);
+			color &= -65281;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 8;
+			var Value = Math.round(match * 255);
+			color &= -256;
+			color |= Value > 255 ? 255 : Value < 0 ? 0 : Value;
+			var Value = Math.round(Alpha1 * 255);
+			color &= 16777215;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 24;
+			break;
+		case 1:
+			var Alpha1 = Alpha;
+			if(Alpha1 == null) {
+				Alpha1 = 1;
+			}
+			var Value = Math.round(mid * 255);
+			color &= -16711681;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 16;
+			var Value = Math.round(Chroma * 255);
+			color &= -65281;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 8;
+			var Value = Math.round(match * 255);
+			color &= -256;
+			color |= Value > 255 ? 255 : Value < 0 ? 0 : Value;
+			var Value = Math.round(Alpha1 * 255);
+			color &= 16777215;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 24;
+			break;
+		case 2:
+			var Alpha1 = Alpha;
+			if(Alpha1 == null) {
+				Alpha1 = 1;
+			}
+			var Value = Math.round(match * 255);
+			color &= -16711681;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 16;
+			var Value = Math.round(Chroma * 255);
+			color &= -65281;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 8;
+			var Value = Math.round(mid * 255);
+			color &= -256;
+			color |= Value > 255 ? 255 : Value < 0 ? 0 : Value;
+			var Value = Math.round(Alpha1 * 255);
+			color &= 16777215;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 24;
+			break;
+		case 3:
+			var Alpha1 = Alpha;
+			if(Alpha1 == null) {
+				Alpha1 = 1;
+			}
+			var Value = Math.round(match * 255);
+			color &= -16711681;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 16;
+			var Value = Math.round(mid * 255);
+			color &= -65281;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 8;
+			var Value = Math.round(Chroma * 255);
+			color &= -256;
+			color |= Value > 255 ? 255 : Value < 0 ? 0 : Value;
+			var Value = Math.round(Alpha1 * 255);
+			color &= 16777215;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 24;
+			break;
+		case 4:
+			var Alpha1 = Alpha;
+			if(Alpha1 == null) {
+				Alpha1 = 1;
+			}
+			var Value = Math.round(mid * 255);
+			color &= -16711681;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 16;
+			var Value = Math.round(match * 255);
+			color &= -65281;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 8;
+			var Value = Math.round(Chroma * 255);
+			color &= -256;
+			color |= Value > 255 ? 255 : Value < 0 ? 0 : Value;
+			var Value = Math.round(Alpha1 * 255);
+			color &= 16777215;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 24;
+			break;
+		case 5:
+			var Alpha1 = Alpha;
+			if(Alpha1 == null) {
+				Alpha1 = 1;
+			}
+			var Value = Math.round(Chroma * 255);
+			color &= -16711681;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 16;
+			var Value = Math.round(match * 255);
+			color &= -65281;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 8;
+			var Value = Math.round(mid * 255);
+			color &= -256;
+			color |= Value > 255 ? 255 : Value < 0 ? 0 : Value;
+			var Value = Math.round(Alpha1 * 255);
+			color &= 16777215;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 24;
+			break;
+		}
+		this.playerColor = color;
+		break;
+	case 1:
+		var Alpha = 1;
+		if(Alpha == null) {
+			Alpha = 1;
+		}
+		var color = flixel_util_FlxColor._new();
+		var chroma = (1 - Math.abs(0.)) * 10;
+		var match = 0.5 - chroma / 2;
+		var Hue1 = 240;
+		var Chroma = chroma;
+		Hue1 %= 360;
+		var hueD = Hue1 / 60;
+		var mid = Chroma * (1 - Math.abs(hueD % 2 - 1)) + match;
+		Chroma += match;
+		switch(hueD | 0) {
+		case 0:
+			var Alpha1 = Alpha;
+			if(Alpha1 == null) {
+				Alpha1 = 1;
+			}
+			var Value = Math.round(Chroma * 255);
+			color &= -16711681;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 16;
+			var Value = Math.round(mid * 255);
+			color &= -65281;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 8;
+			var Value = Math.round(match * 255);
+			color &= -256;
+			color |= Value > 255 ? 255 : Value < 0 ? 0 : Value;
+			var Value = Math.round(Alpha1 * 255);
+			color &= 16777215;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 24;
+			break;
+		case 1:
+			var Alpha1 = Alpha;
+			if(Alpha1 == null) {
+				Alpha1 = 1;
+			}
+			var Value = Math.round(mid * 255);
+			color &= -16711681;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 16;
+			var Value = Math.round(Chroma * 255);
+			color &= -65281;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 8;
+			var Value = Math.round(match * 255);
+			color &= -256;
+			color |= Value > 255 ? 255 : Value < 0 ? 0 : Value;
+			var Value = Math.round(Alpha1 * 255);
+			color &= 16777215;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 24;
+			break;
+		case 2:
+			var Alpha1 = Alpha;
+			if(Alpha1 == null) {
+				Alpha1 = 1;
+			}
+			var Value = Math.round(match * 255);
+			color &= -16711681;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 16;
+			var Value = Math.round(Chroma * 255);
+			color &= -65281;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 8;
+			var Value = Math.round(mid * 255);
+			color &= -256;
+			color |= Value > 255 ? 255 : Value < 0 ? 0 : Value;
+			var Value = Math.round(Alpha1 * 255);
+			color &= 16777215;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 24;
+			break;
+		case 3:
+			var Alpha1 = Alpha;
+			if(Alpha1 == null) {
+				Alpha1 = 1;
+			}
+			var Value = Math.round(match * 255);
+			color &= -16711681;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 16;
+			var Value = Math.round(mid * 255);
+			color &= -65281;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 8;
+			var Value = Math.round(Chroma * 255);
+			color &= -256;
+			color |= Value > 255 ? 255 : Value < 0 ? 0 : Value;
+			var Value = Math.round(Alpha1 * 255);
+			color &= 16777215;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 24;
+			break;
+		case 4:
+			var Alpha1 = Alpha;
+			if(Alpha1 == null) {
+				Alpha1 = 1;
+			}
+			var Value = Math.round(mid * 255);
+			color &= -16711681;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 16;
+			var Value = Math.round(match * 255);
+			color &= -65281;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 8;
+			var Value = Math.round(Chroma * 255);
+			color &= -256;
+			color |= Value > 255 ? 255 : Value < 0 ? 0 : Value;
+			var Value = Math.round(Alpha1 * 255);
+			color &= 16777215;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 24;
+			break;
+		case 5:
+			var Alpha1 = Alpha;
+			if(Alpha1 == null) {
+				Alpha1 = 1;
+			}
+			var Value = Math.round(Chroma * 255);
+			color &= -16711681;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 16;
+			var Value = Math.round(match * 255);
+			color &= -65281;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 8;
+			var Value = Math.round(mid * 255);
+			color &= -256;
+			color |= Value > 255 ? 255 : Value < 0 ? 0 : Value;
+			var Value = Math.round(Alpha1 * 255);
+			color &= 16777215;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 24;
+			break;
+		}
+		this.playerColor = color;
+		break;
+	case 2:
+		var Alpha = 1;
+		if(Alpha == null) {
+			Alpha = 1;
+		}
+		var color = flixel_util_FlxColor._new();
+		var chroma = (1 - Math.abs(0.)) * 10;
+		var match = 0.5 - chroma / 2;
+		var Hue1 = 140;
+		var Chroma = chroma;
+		Hue1 %= 360;
+		var hueD = Hue1 / 60;
+		var mid = Chroma * (1 - Math.abs(hueD % 2 - 1)) + match;
+		Chroma += match;
+		switch(hueD | 0) {
+		case 0:
+			var Alpha1 = Alpha;
+			if(Alpha1 == null) {
+				Alpha1 = 1;
+			}
+			var Value = Math.round(Chroma * 255);
+			color &= -16711681;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 16;
+			var Value = Math.round(mid * 255);
+			color &= -65281;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 8;
+			var Value = Math.round(match * 255);
+			color &= -256;
+			color |= Value > 255 ? 255 : Value < 0 ? 0 : Value;
+			var Value = Math.round(Alpha1 * 255);
+			color &= 16777215;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 24;
+			break;
+		case 1:
+			var Alpha1 = Alpha;
+			if(Alpha1 == null) {
+				Alpha1 = 1;
+			}
+			var Value = Math.round(mid * 255);
+			color &= -16711681;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 16;
+			var Value = Math.round(Chroma * 255);
+			color &= -65281;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 8;
+			var Value = Math.round(match * 255);
+			color &= -256;
+			color |= Value > 255 ? 255 : Value < 0 ? 0 : Value;
+			var Value = Math.round(Alpha1 * 255);
+			color &= 16777215;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 24;
+			break;
+		case 2:
+			var Alpha1 = Alpha;
+			if(Alpha1 == null) {
+				Alpha1 = 1;
+			}
+			var Value = Math.round(match * 255);
+			color &= -16711681;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 16;
+			var Value = Math.round(Chroma * 255);
+			color &= -65281;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 8;
+			var Value = Math.round(mid * 255);
+			color &= -256;
+			color |= Value > 255 ? 255 : Value < 0 ? 0 : Value;
+			var Value = Math.round(Alpha1 * 255);
+			color &= 16777215;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 24;
+			break;
+		case 3:
+			var Alpha1 = Alpha;
+			if(Alpha1 == null) {
+				Alpha1 = 1;
+			}
+			var Value = Math.round(match * 255);
+			color &= -16711681;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 16;
+			var Value = Math.round(mid * 255);
+			color &= -65281;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 8;
+			var Value = Math.round(Chroma * 255);
+			color &= -256;
+			color |= Value > 255 ? 255 : Value < 0 ? 0 : Value;
+			var Value = Math.round(Alpha1 * 255);
+			color &= 16777215;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 24;
+			break;
+		case 4:
+			var Alpha1 = Alpha;
+			if(Alpha1 == null) {
+				Alpha1 = 1;
+			}
+			var Value = Math.round(mid * 255);
+			color &= -16711681;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 16;
+			var Value = Math.round(match * 255);
+			color &= -65281;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 8;
+			var Value = Math.round(Chroma * 255);
+			color &= -256;
+			color |= Value > 255 ? 255 : Value < 0 ? 0 : Value;
+			var Value = Math.round(Alpha1 * 255);
+			color &= 16777215;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 24;
+			break;
+		case 5:
+			var Alpha1 = Alpha;
+			if(Alpha1 == null) {
+				Alpha1 = 1;
+			}
+			var Value = Math.round(Chroma * 255);
+			color &= -16711681;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 16;
+			var Value = Math.round(match * 255);
+			color &= -65281;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 8;
+			var Value = Math.round(mid * 255);
+			color &= -256;
+			color |= Value > 255 ? 255 : Value < 0 ? 0 : Value;
+			var Value = Math.round(Alpha1 * 255);
+			color &= 16777215;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 24;
+			break;
+		}
+		this.playerColor = color;
+		break;
+	case 3:
+		var Alpha = 1;
+		if(Alpha == null) {
+			Alpha = 1;
+		}
+		var color = flixel_util_FlxColor._new();
+		var chroma = (1 - Math.abs(0.)) * 10;
+		var match = 0.5 - chroma / 2;
+		var Hue1 = 300;
+		var Chroma = chroma;
+		Hue1 %= 360;
+		var hueD = Hue1 / 60;
+		var mid = Chroma * (1 - Math.abs(hueD % 2 - 1)) + match;
+		Chroma += match;
+		switch(hueD | 0) {
+		case 0:
+			var Alpha1 = Alpha;
+			if(Alpha1 == null) {
+				Alpha1 = 1;
+			}
+			var Value = Math.round(Chroma * 255);
+			color &= -16711681;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 16;
+			var Value = Math.round(mid * 255);
+			color &= -65281;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 8;
+			var Value = Math.round(match * 255);
+			color &= -256;
+			color |= Value > 255 ? 255 : Value < 0 ? 0 : Value;
+			var Value = Math.round(Alpha1 * 255);
+			color &= 16777215;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 24;
+			break;
+		case 1:
+			var Alpha1 = Alpha;
+			if(Alpha1 == null) {
+				Alpha1 = 1;
+			}
+			var Value = Math.round(mid * 255);
+			color &= -16711681;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 16;
+			var Value = Math.round(Chroma * 255);
+			color &= -65281;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 8;
+			var Value = Math.round(match * 255);
+			color &= -256;
+			color |= Value > 255 ? 255 : Value < 0 ? 0 : Value;
+			var Value = Math.round(Alpha1 * 255);
+			color &= 16777215;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 24;
+			break;
+		case 2:
+			var Alpha1 = Alpha;
+			if(Alpha1 == null) {
+				Alpha1 = 1;
+			}
+			var Value = Math.round(match * 255);
+			color &= -16711681;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 16;
+			var Value = Math.round(Chroma * 255);
+			color &= -65281;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 8;
+			var Value = Math.round(mid * 255);
+			color &= -256;
+			color |= Value > 255 ? 255 : Value < 0 ? 0 : Value;
+			var Value = Math.round(Alpha1 * 255);
+			color &= 16777215;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 24;
+			break;
+		case 3:
+			var Alpha1 = Alpha;
+			if(Alpha1 == null) {
+				Alpha1 = 1;
+			}
+			var Value = Math.round(match * 255);
+			color &= -16711681;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 16;
+			var Value = Math.round(mid * 255);
+			color &= -65281;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 8;
+			var Value = Math.round(Chroma * 255);
+			color &= -256;
+			color |= Value > 255 ? 255 : Value < 0 ? 0 : Value;
+			var Value = Math.round(Alpha1 * 255);
+			color &= 16777215;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 24;
+			break;
+		case 4:
+			var Alpha1 = Alpha;
+			if(Alpha1 == null) {
+				Alpha1 = 1;
+			}
+			var Value = Math.round(mid * 255);
+			color &= -16711681;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 16;
+			var Value = Math.round(match * 255);
+			color &= -65281;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 8;
+			var Value = Math.round(Chroma * 255);
+			color &= -256;
+			color |= Value > 255 ? 255 : Value < 0 ? 0 : Value;
+			var Value = Math.round(Alpha1 * 255);
+			color &= 16777215;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 24;
+			break;
+		case 5:
+			var Alpha1 = Alpha;
+			if(Alpha1 == null) {
+				Alpha1 = 1;
+			}
+			var Value = Math.round(Chroma * 255);
+			color &= -16711681;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 16;
+			var Value = Math.round(match * 255);
+			color &= -65281;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 8;
+			var Value = Math.round(mid * 255);
+			color &= -256;
+			color |= Value > 255 ? 255 : Value < 0 ? 0 : Value;
+			var Value = Math.round(Alpha1 * 255);
+			color &= 16777215;
+			color |= (Value > 255 ? 255 : Value < 0 ? 0 : Value) << 24;
+			break;
+		}
+		this.playerColor = color;
+		break;
+	default:
+		this.playerColor = 0;
+	}
+	this.makeGraphic(_width,_height,this.playerColor);
+	this.pieceSlots = new flixel_group_FlxTypedGroup(3);
+	this.pieceSlots.add(new GamePieceSlot(this.getCenter().x - 100,this.getCenter().y));
+	this.pieceSlots.add(new GamePieceSlot(this.getCenter().x,this.getCenter().y));
+	this.pieceSlots.add(new GamePieceSlot(this.getCenter().x + 100,this.getCenter().y));
+};
+$hxClasses["Player"] = Player;
+Player.__name__ = "Player";
+Player.__super__ = flixel_FlxSprite;
+Player.prototype = $extend(flixel_FlxSprite.prototype,{
+	playerColor: null
+	,pieceSlots: null
+	,getPieceSlots: function() {
+		return this.pieceSlots;
+	}
+	,getCenter: function() {
+		var x = this.x + (this.get_width() / 2 | 0);
+		var y = this.y + (this.get_height() / 2 | 0);
+		if(y == null) {
+			y = 0;
+		}
+		if(x == null) {
+			x = 0;
+		}
+		var this1 = new flixel_math_FlxBasePoint(x,y);
+		return this1;
+	}
+	,setAngle: function(_angle) {
+		switch(_angle) {
+		case -90:
+			this.set_angle(_angle);
+			this.pieceSlots.members[0].setPosition(this.getCenter().x,this.getCenter().y - 100);
+			this.pieceSlots.members[2].setPosition(this.getCenter().x,this.getCenter().y + 100);
+			break;
+		case 90:
+			this.set_angle(_angle);
+			this.pieceSlots.members[0].setPosition(this.getCenter().x,this.getCenter().y - 100);
+			this.pieceSlots.members[2].setPosition(this.getCenter().x,this.getCenter().y + 100);
+			break;
+		default:
+			haxe_Log.trace("Error: Rotation Not handled",{ fileName : "source/Player.hx", lineNumber : 86, className : "Player", methodName : "setAngle"});
+		}
+	}
+	,setColor: function(_color) {
+		if(this.playerColor != _color) {
+			this.set_color(this.playerColor);
+		} else {
+			haxe_Log.trace("Color Not Changed",{ fileName : "source/Player.hx", lineNumber : 102, className : "Player", methodName : "setColor"});
+		}
+	}
+	,__class__: Player
 });
 var Reflect = function() { };
 $hxClasses["Reflect"] = Reflect;
@@ -72632,7 +73229,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 692965;
+	this.version = 816152;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";

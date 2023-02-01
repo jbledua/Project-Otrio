@@ -14,7 +14,7 @@ class GamePiece extends FlxSprite
 
 	public function new(x:Float = 0, y:Float = 0, player:Int = 0, size:Int = 1)
 	{
-		// super(x, y);
+		//super(x, y);
 		super(x - Std.int(width / 2), y - Std.int(height / 2));
 
 		var PlayerColor:FlxColor;
@@ -40,16 +40,16 @@ class GamePiece extends FlxSprite
 		{
 			case 0:
 				PieceSize = 10;
-				this.origin.set(5, 5);
+				//this.origin.set(5, 5);
 			case 1:
 				PieceSize = 30;
-				this.origin.set(15, 15);
+				//this.origin.set(15, 15);
 			case 2:
 				PieceSize = 50;
-				this.origin.set(25, 25);
+				//this.origin.set(25, 25);
 			default:
 				PieceSize = 30;
-				this.origin.set(15, 15);
+				//this.origin.set(15, 15);
 		}
 
 		makeGraphic(PieceSize, PieceSize, PlayerColor);
@@ -74,6 +74,12 @@ class GamePiece extends FlxSprite
 		}
 
 		this.color = PlayerColor;
+	}
+
+	public override function setPosition(x:Float = 0.0, y:Float = 0.0) 
+	{
+		Log.trace("In Override");
+		super.setPosition(x, y);
 	}
 
 	private var pickedUp:Bool = false;
