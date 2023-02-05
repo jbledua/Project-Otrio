@@ -1,0 +1,79 @@
+import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.FlxG;
+import flixel.FlxSprite;
+import flixel.math.FlxPoint;
+import flixel.util.FlxColor;
+import haxe.Log;
+import openfl.Vector;
+
+class Slot extends FlxSprite
+{
+	private var sprite:FlxSprite;
+
+	private var slotsSizes:Vector<Int>;
+	private var pieces:FlxTypedGroup<Piece>;
+
+	public function new(x:Float = 0, y:Float = 0, _width:Int = 50, _height:Int = 50)
+	{
+		// Move Origin to the center from the top right corner
+		super(x - Std.int(_width / 2), y - Std.int(_height / 2));
+
+		slotsSizes = new Vector<Int>(3);
+		pieces = new FlxTypedGroup<Piece>(3);
+
+		for (i in 0...3)
+		{
+			slotsSizes[i] = i;
+		
+		}
+
+		this.makeGraphic(_width, _height, FlxColor.CYAN);
+	}
+	public function addPieces(_piece:Piece)
+	{
+		pieces.add(_piece);
+	}
+
+	public function removePieces(_piece:Piece):Piece
+	{
+		return pieces.remove(_piece);
+	}
+
+	public function setColor(_color:FlxColor)
+	{
+		this.color = _color; 
+	}
+
+	public function getColor(_color:FlxColor)
+	{
+		return this.color;
+	}
+	
+	public override function setPosition(x:Float = 0.0, y:Float = 0.0) 
+	{
+		super.setPosition(x - Std.int(width / 2), y - Std.int(height / 2));
+
+		for (i in 0...this.pieces.length)
+		{
+			this.pieces.members[i].setPosition(this.getCenter().x,this.getCenter().y);
+		}
+
+	}
+
+
+	/*
+	// Needs to be fixed - Look into function Overloading
+	public function setPosition(_point:FlxPoint) 
+	{
+		super.setPosition(_point.x - Std.int(width / 2), _point.y - Std.int(height / 2));
+	}
+	//*/
+
+	public function getCenter()
+	{
+		// Returns the center point of the player
+		return new FlxPoint(this.x + Std.int(this.width/2),this.y + Std.int(this.height/2));
+	}
+
+	
+}
