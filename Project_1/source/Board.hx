@@ -16,9 +16,11 @@ class Board extends FlxSprite
 
         super(x - Std.int(_width/2),y - Std.int(_hieght/2));
 
+        // Replace this with Board graphic
         makeGraphic(_width,_hieght,FlxColor.WHITE);
         
         slots = new FlxTypedGroup<Slot>(9);
+        
         //*
         // Create slots
         for (i in 0...slots.maxSize)
@@ -43,6 +45,7 @@ class Board extends FlxSprite
         slots.add(new Slot());
         //*/
 
+        // Update 
         updateSlotPos();
         
     }

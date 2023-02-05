@@ -6,6 +6,9 @@ import haxe.Log;
 class Piece extends FlxSprite
 {
 	private var pieceSize:Int = 1;
+	private var pickedUp:Bool = false;
+	private var locked:Bool = false;
+	private var parentSlot:Slot;
 
 	public function getPieceSize()
 	{
@@ -32,20 +35,33 @@ class Piece extends FlxSprite
 		switch _size
 		{
 			case 0:
+				// Replace this with small piece sprit
 				_pieceSize = 10;
-				//this.origin.set(5, 5);
+				makeGraphic(_pieceSize, _pieceSize, _color);
 			case 1:
+				// Replace this with medium piece sprit
 				_pieceSize = 30;
-				//this.origin.set(15, 15);
+				makeGraphic(_pieceSize, _pieceSize, _color);
 			case 2:
+				// Replace this with large piece sprit
 				_pieceSize = 50;
-				//this.origin.set(25, 25);
+				makeGraphic(_pieceSize, _pieceSize, _color);
 			default:
 				_pieceSize = 30;
-				//this.origin.set(15, 15);
+				makeGraphic(_pieceSize, _pieceSize, _color);
 		}
 
-		makeGraphic(_pieceSize, _pieceSize, _color);
+		
+	}
+
+	public function setLocked(_locked:Bool) 
+	{
+		this.locked = _locked;
+	}
+
+	public function isLocked():Bool
+	{
+		return this.locked;
 	}
 
 
@@ -54,8 +70,6 @@ class Piece extends FlxSprite
 		// Sets Position from center instead of the top right corner
 		super.setPosition(x - Std.int(width / 2), y - Std.int(height / 2));
 	}
-
-	private var pickedUp:Bool = false;
 
 	override public function update(elapsed:Float)
 	{
@@ -69,23 +83,54 @@ class Piece extends FlxSprite
 
 	public function onGrab()
 	{
-		this.pickedUp = true;
+		if(this.locked)
+		{
+			this.pickedUp = true;
+			
+			this.scale.x = 1.5;
+			this.scale.y = 1.5;
+	
+			// Add pick up sound here
+		}
+		else
+		{
+			Log.trace("Locked");
 
-		this.scale.x = 1.5;
-		this.scale.y = 1.5;
+			// Add Error animation
+			// Add error sound here
+		}
+
 	}
 
 	public function onDrop()
 	{
 		this.pickedUp = false;
 
+		// Replace this with drop up animation
 		this.scale.x = 1;
 		this.scale.y = 1;
+
+		// Add drop up sound here
 	}
 
 	public function isDropped()
 	{
 		return this.pickedUp;
+	}
+
+	public function setParentSlot(_slot:Slot)
+	{
+		Log.trace("Set Parent");
+		this.parentSlot = _slot;
+	}
+	public function getParentSlot():Slot
+	{
+		return this.parentSlot;
+	}
+
+	public function moveToParent()
+	{
+		Log.trace("Move to " + Std.string(this.parentSlot.getCenter().x) + "," + Std.string(this.parentSlot.getCenter().y));
 	}
 
 	public function moveTo(_PieceSlot:Slot)

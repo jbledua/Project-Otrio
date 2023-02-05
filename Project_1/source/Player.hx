@@ -17,6 +17,7 @@ class Player extends FlxSprite
         var _color:FlxColor;
         var _colorLight:FlxColor;
         var _colorDark:FlxColor;
+        var _colorBackground:FlxColor;
 
         // super(x, y);
         super(x - Std.int(_width / 2), y - Std.int(_height / 2));
@@ -28,50 +29,37 @@ class Player extends FlxSprite
 		{
 			case 0:
                 // Player one is Red
-				//_color = FlxColor.fromHSL(0,50,1,255);
-                
-                _colorLight = FlxColor.fromString("#FF0000");
-                _color = FlxColor.fromString("#FF1919");
-                _colorDark = FlxColor.fromString("#FF3333");
-
-                //_color = FlxColor.fromInt()
-                //_colorLight = FlxColor.fromHSL(0,1.0,1.0,255);
-                //_colorDark = FlxColor.fromHSL(0,1.0,1.0,255);
-                //this.playerColor = FlxColor.TRANSPARENT;
+                _colorLight = FlxColor.fromHSB(0,1,1,1);
+                _color = FlxColor.fromHSB(0,1,0.75,1);
+                _colorDark = FlxColor.fromHSB(0,1,0.5,1);
+                _colorBackground = FlxColor.fromHSB(0,1,0.25,1);
 			case 1:
                 // Player two is Blue
-                
-                _colorLight = FlxColor.fromString("#2A00FF");
-                _color = FlxColor.fromString("#4019FF");
-                _colorDark = FlxColor.fromString("#5533FF");
-				//_color = FlxColor.fromHSL(240,1.0,1.0,255);
-                //_colorLight = FlxColor.fromHSL(240,1.0,1.0,255);
-                //_colorDark = FlxColor.fromHSL(240,1.0,1.0,255);
-
+                _colorLight = FlxColor.fromHSB(240,1,1,1);
+                _color = FlxColor.fromHSB(240,1,0.75,1);
+                _colorDark = FlxColor.fromHSB(240,1,0.5,1);
+                _colorBackground = FlxColor.fromHSB(240,1,0.25,1);
 			case 2:
                 // Player four is puple
-                _colorLight = FlxColor.fromString("#FF00FF");
-                _color = FlxColor.fromString("#FF33FF");
-                _colorDark = FlxColor.fromString("#FF4DFF");
-				//_color = FlxColor.fromHSL(300,1.0,1.0,255);
-                //_colorLight = FlxColor.fromHSL(300,1.0,1.0,255);
-                //_colorDark = FlxColor.fromHSL(300,1.0,1.0,255);
+                _colorLight = FlxColor.fromHSB(300,1,1,1);
+                _color = FlxColor.fromHSB(300,1,0.75,1);
+                _colorDark = FlxColor.fromHSB(300,1,0.5,1);
+                _colorBackground = FlxColor.fromHSB(300,1,0.25,1);
 			case 3:
                 // Player three is green
-                _colorLight = FlxColor.fromString("#00FF00");
-                _color = FlxColor.fromString("#19FF19");
-                _colorDark = FlxColor.fromString("#33FF33");
-				//_color = FlxColor.fromHSL(140,1.0,1.0,255);
-                //_colorLight = FlxColor.fromHSL(140,1.0,1.0,255);
-                //_colorDark = FlxColor.fromHSL(140,1.0,1.0,255);
-                //this.playerColor = FlxColor.TRANSPARENT;
+                _colorLight = FlxColor.fromHSB(120,1,1,1);
+                _color = FlxColor.fromHSB(120,1,0.75,1);
+                _colorDark = FlxColor.fromHSB(120,1,0.5,1);
+                _colorBackground = FlxColor.fromHSB(120,1,0.25,1);
 			default:
 				_color = FlxColor.WHITE;
                 _colorLight = FlxColor.WHITE;
                 _colorDark = FlxColor.WHITE;
+                _colorBackground = FlxColor.WHITE;
 		}
 
-        makeGraphic(_width,_height,FlxColor.TRANSPARENT);
+        // Replace this with FlxColor.TRANSPARENT or Board Graphic
+        makeGraphic(_width,_height,_colorBackground);
 
         // Creat the game slots
         slots = new FlxTypedGroup<Slot>(3);
@@ -196,4 +184,26 @@ class Player extends FlxSprite
     {
         return this.color;
     }
+
+    public function startTurn()
+    {
+        Log.trace("Start Turn");
+
+        // Unlock all Pieces
+        for (i in 0...pieces.length)
+        {
+            pieces.members[i].setLocked(true);
+        }
+    }
+
+	public function endTurn()
+	{
+		Log.trace("End Turn");
+
+        // Lock all Pieces
+        for (i in 0...pieces.length)
+        {
+            pieces.members[i].setLocked(false);
+        }
+	}
 }
