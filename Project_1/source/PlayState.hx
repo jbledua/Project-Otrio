@@ -1,5 +1,7 @@
 package;
 
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import flixel.FlxSprite;
 import openfl.display.Sprite;
 import flixel.FlxG;
@@ -104,7 +106,7 @@ class PlayState extends FlxState
 					if(FlxG.mouse.overlaps(tempPieces.members[j]))
 					{
 						tempPieces.members[j].onDrop();
-
+						var pieceMoved = false;
 
 						var _tempBoardSlots:FlxTypedGroup<Slot> = this.board.getSlots();
 
@@ -115,10 +117,24 @@ class PlayState extends FlxState
 								// FOR TESTING
 								Log.trace("On Board slot " + k);
 
+								// Move Piece to slot center
+								tempPieces.members[j].moveTo(_tempBoardSlots.members[k].getCenter());
 
+								pieceMoved = true;
+
+								//var _sprite:FlxSprite = tempPieces.members[j];
+
+								//tween = FlxTween.tween(sprite, { x:600, y:800 }, 2);
+
+								//var _tween:FlxTween = FlxTween.tween(_sprite, { x: _tempBoardSlots.members[k].getCenter().x, y: _tempBoardSlots.members[k].getCenter().y }, 2.0);
 							}
 
-			
+						}
+
+						if(pieceMoved == false)
+						{
+							// Move Piece to slot start
+							tempPieces.members[j].moveToStart();
 						}
 
 					}
