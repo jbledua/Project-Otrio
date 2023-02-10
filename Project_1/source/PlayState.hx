@@ -11,6 +11,7 @@ import haxe.Log;
 class PlayState extends FlxState
 {
 
+	private var turnIndex:Int = 0;
 	private var players:FlxTypedGroup<Player>;
 	private var board:Board;
 
@@ -49,11 +50,20 @@ class PlayState extends FlxState
 			add(players.members[i].getPieces());
 		}
 
+		// Start first turn
+		this.players.members[this.turnIndex].startTurn();
+
 	} // End create
 
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
+
+		// FOR TESTING: Press N to go to next turn 
+		if (FlxG.keys.justPressed.N)
+		{
+			this.endTurn();
+		}
 
 		if (FlxG.mouse.justPressed)
 		{
@@ -62,22 +72,21 @@ class PlayState extends FlxState
 			{
 
 				var tempPieces = players.members[i].getPieces();
-
-
 				var j = tempPieces.length-1;
-				//for (j in 0...tempPieces.length)
+
+				// Check if the mouse clicked any of the pieces
+				// Needs to loop through in reverse to pick up the piece on top
 				while(j >= 0)
 				{
 					if(FlxG.mouse.overlaps(tempPieces.members[j]))
 					{
 						tempPieces.members[j].onGrab();
 
+						// Stop Checking after a piece is picked up
 						break;
 					}
 					j--;
 				}
-
-				
 			}
 		}
 
@@ -89,13 +98,28 @@ class PlayState extends FlxState
 
 				var tempPieces = players.members[i].getPieces();
 
+				
 				for (j in 0...tempPieces.length)
 				{
-
 					if(FlxG.mouse.overlaps(tempPieces.members[j]))
 					{
-
 						tempPieces.members[j].onDrop();
+
+
+						var _tempBoardSlots:FlxTypedGroup<Slot> = this.board.getSlots();
+
+						for (k in 0..._tempBoardSlots.length)
+						{
+							if(_tempBoardSlots.members[k].overlaps(tempPieces.members[j]))
+							{
+								// FOR TESTING
+								Log.trace("On Board slot " + k);
+
+
+							}
+
+			
+						}
 
 					}
 				}
@@ -106,6 +130,28 @@ class PlayState extends FlxState
 		
 
 	} // End Update
+
+	public function endTurn()
+	{
+		// FOR TESTING
+		Log.trace("Player " + this.turnIndex);
+
+		// End Current turn
+		this.players.members[this.turnIndex].endTurn();
+
+		// Increment turnIndex and loop
+		if(this.turnIndex < this.players.length - 1)
+			this.turnIndex++;
+		else
+			this.turnIndex = 0;
+
+
+		// Add Check for Win Condition here
+
+		// Start Next turn
+		this.players.members[this.turnIndex].startTurn();
+
+	}
 
 	public function createAlignGrid() 
 	{

@@ -31,11 +31,13 @@ class Slot extends FlxSprite
 	}
 	public function addPieces(_piece:Piece)
 	{
+		Log.trace("Add piece");
 		pieces.add(_piece);
 	}
 
-	public function removePieces(_piece:Piece):Piece
+	public function removePiece(_piece:Piece):Piece
 	{
+		Log.trace("Remove piece");
 		return pieces.remove(_piece);
 	}
 
