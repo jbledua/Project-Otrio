@@ -32,6 +32,15 @@ class GamePieceSlot extends FlxSprite
 		sprite = makeGraphic(width, height, FlxColor.CYAN);
 	}
 
+	//*
+	public override function setPosition(x:Float = 0.0, y:Float = 0.0) 
+	{
+		Log.trace("In Override");
+		super.setPosition(x - Std.int(width / 2), y - Std.int(height / 2));
+	}
+	//*/
+	
+
 	public function setColor(_color:FlxColor)
 	{
 		this.sprite.color = _color;
