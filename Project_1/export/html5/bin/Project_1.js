@@ -890,7 +890,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "7";
+	app.meta.h["build"] = "8";
 	app.meta.h["company"] = "HaxeFlixel";
 	app.meta.h["file"] = "Project_1";
 	app.meta.h["name"] = "Project_1";
@@ -7457,12 +7457,25 @@ var Piece = function(_size,_color,_x,_y) {
 		_pieceSize = 30;
 		this.makeGraphic(_pieceSize,_pieceSize,_color);
 	}
+	var x = 0;
+	var y = 0;
+	if(y == null) {
+		y = 0;
+	}
+	if(x == null) {
+		x = 0;
+	}
+	var this1 = new flixel_math_FlxBasePoint(x,y);
+	this.startPosition = this1;
 };
 $hxClasses["Piece"] = Piece;
 Piece.__name__ = "Piece";
 Piece.__super__ = flixel_FlxSprite;
 Piece.prototype = $extend(flixel_FlxSprite.prototype,{
-	getPieceSize: function() {
+	setStartPosition: function(_point) {
+		this.startPosition = _point;
+	}
+	,getPieceSize: function() {
 		return this.pieceSize;
 	}
 	,setColor: function(_color) {
@@ -7498,7 +7511,7 @@ Piece.prototype = $extend(flixel_FlxSprite.prototype,{
 			this.scale.set_x(1.5);
 			this.scale.set_y(1.5);
 		} else {
-			haxe_Log.trace("Locked",{ fileName : "source/Piece.hx", lineNumber : 97, className : "Piece", methodName : "onGrab"});
+			haxe_Log.trace("Locked",{ fileName : "source/Piece.hx", lineNumber : 106, className : "Piece", methodName : "onGrab"});
 		}
 	}
 	,onDrop: function() {
@@ -7510,17 +7523,21 @@ Piece.prototype = $extend(flixel_FlxSprite.prototype,{
 		return this.pickedUp;
 	}
 	,setParentSlot: function(_slot) {
-		haxe_Log.trace("Set Parent",{ fileName : "source/Piece.hx", lineNumber : 123, className : "Piece", methodName : "setParentSlot"});
+		haxe_Log.trace("Set Parent",{ fileName : "source/Piece.hx", lineNumber : 134, className : "Piece", methodName : "setParentSlot"});
 		this.parentSlot = _slot;
 	}
 	,getParentSlot: function() {
 		return this.parentSlot;
 	}
 	,moveToParent: function() {
-		haxe_Log.trace("Move to " + Std.string(this.parentSlot.getCenter().x) + "," + Std.string(this.parentSlot.getCenter().y),{ fileName : "source/Piece.hx", lineNumber : 133, className : "Piece", methodName : "moveToParent"});
+		haxe_Log.trace("Move to " + Std.string(this.parentSlot.getCenter().x) + "," + Std.string(this.parentSlot.getCenter().y),{ fileName : "source/Piece.hx", lineNumber : 144, className : "Piece", methodName : "moveToParent"});
 	}
-	,moveTo: function(_PieceSlot) {
-		haxe_Log.trace("Move to " + Std.string(_PieceSlot.getCenter().x) + "," + Std.string(_PieceSlot.getCenter().y),{ fileName : "source/Piece.hx", lineNumber : 138, className : "Piece", methodName : "moveTo"});
+	,moveToStart: function() {
+		this.moveTo(this.startPosition);
+	}
+	,moveTo: function(_point) {
+		haxe_Log.trace("Move to " + Std.string(_point.x) + "," + Std.string(_point.y),{ fileName : "source/Piece.hx", lineNumber : 159, className : "Piece", methodName : "moveTo"});
+		var _tween = flixel_tweens_FlxTween.tween(this,{ x : _point.x - (this.get_width() / 2 | 0), y : _point.y - (this.get_height() / 2 | 0)},0.5);
 	}
 	,__class__: Piece
 });
@@ -8234,14 +8251,20 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 					var j = _g2++;
 					if(flixel_FlxG.mouse.overlaps(tempPieces.members[j])) {
 						tempPieces.members[j].onDrop();
+						var pieceMoved = false;
 						var _tempBoardSlots = this.board.getSlots();
 						var _g4 = 0;
 						var _g5 = _tempBoardSlots.length;
 						while(_g4 < _g5) {
 							var k = _g4++;
 							if(_tempBoardSlots.members[k].overlaps(tempPieces.members[j])) {
-								haxe_Log.trace("On Board slot " + k,{ fileName : "source/PlayState.hx", lineNumber : 116, className : "PlayState", methodName : "update"});
+								haxe_Log.trace("On Board slot " + k,{ fileName : "source/PlayState.hx", lineNumber : 118, className : "PlayState", methodName : "update"});
+								tempPieces.members[j].moveTo(_tempBoardSlots.members[k].getCenter());
+								pieceMoved = true;
 							}
+						}
+						if(pieceMoved == false) {
+							tempPieces.members[j].moveToStart();
 						}
 					}
 				}
@@ -8249,7 +8272,7 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 		}
 	}
 	,endTurn: function() {
-		haxe_Log.trace("Player " + this.turnIndex,{ fileName : "source/PlayState.hx", lineNumber : 137, className : "PlayState", methodName : "endTurn"});
+		haxe_Log.trace("Player " + this.turnIndex,{ fileName : "source/PlayState.hx", lineNumber : 153, className : "PlayState", methodName : "endTurn"});
 		this.players.members[this.turnIndex].endTurn();
 		if(this.turnIndex < this.players.length - 1) {
 			this.turnIndex++;
@@ -8375,7 +8398,18 @@ var Player = function(_player,x,y,_width,_height) {
 	var _g1 = this.pieces.length;
 	while(_g < _g1) {
 		var i = _g++;
-		this.pieces.members[i].setPosition(this.slots.members[i % 3].getCenter().x,this.slots.members[i % 3].getCenter().y);
+		var x = this.slots.members[i % 3].getCenter().x;
+		var y = this.slots.members[i % 3].getCenter().y;
+		if(y == null) {
+			y = 0;
+		}
+		if(x == null) {
+			x = 0;
+		}
+		var this1 = new flixel_math_FlxBasePoint(x,y);
+		var _point = this1;
+		this.pieces.members[i].setPosition(_point.x,_point.y);
+		this.pieces.members[i].setStartPosition(_point);
 	}
 };
 $hxClasses["Player"] = Player;
@@ -8434,7 +8468,7 @@ Player.prototype = $extend(flixel_FlxSprite.prototype,{
 			this.pieces.members[8].setPosition(this.getCenter().x,this.getCenter().y + 100);
 			break;
 		default:
-			haxe_Log.trace("Error: Rotation Not handled",{ fileName : "source/Player.hx", lineNumber : 172, className : "Player", methodName : "setAngle"});
+			haxe_Log.trace("Error: Rotation Not handled",{ fileName : "source/Player.hx", lineNumber : 174, className : "Player", methodName : "setAngle"});
 		}
 	}
 	,setColor: function(_color) {
@@ -8444,7 +8478,7 @@ Player.prototype = $extend(flixel_FlxSprite.prototype,{
 		return this.color;
 	}
 	,startTurn: function() {
-		haxe_Log.trace("Start Turn",{ fileName : "source/Player.hx", lineNumber : 190, className : "Player", methodName : "startTurn"});
+		haxe_Log.trace("Start Turn",{ fileName : "source/Player.hx", lineNumber : 192, className : "Player", methodName : "startTurn"});
 		var _g = 0;
 		var _g1 = this.pieces.length;
 		while(_g < _g1) {
@@ -8453,7 +8487,7 @@ Player.prototype = $extend(flixel_FlxSprite.prototype,{
 		}
 	}
 	,endTurn: function() {
-		haxe_Log.trace("End Turn",{ fileName : "source/Player.hx", lineNumber : 201, className : "Player", methodName : "endTurn"});
+		haxe_Log.trace("End Turn",{ fileName : "source/Player.hx", lineNumber : 203, className : "Player", methodName : "endTurn"});
 		var _g = 0;
 		var _g1 = this.pieces.length;
 		while(_g < _g1) {
@@ -66636,7 +66670,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 226421;
+	this.version = 662514;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";

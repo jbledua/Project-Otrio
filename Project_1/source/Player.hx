@@ -104,7 +104,9 @@ class Player extends FlxSprite
 
         for (i in 0...pieces.length)
         {
-            pieces.members[i].setPosition(slots.members[i%3].getCenter().x,slots.members[i%3].getCenter().y);
+            var _point:FlxPoint = new FlxPoint(slots.members[i%3].getCenter().x,slots.members[i%3].getCenter().y);
+            pieces.members[i].setPosition(_point.x, _point.y);
+            pieces.members[i].setStartPosition(_point);
         }
         //pieces.members[3].setPosition(slots.members[i].getCenter().x,slots.members[i].getCenter().y);
         /*

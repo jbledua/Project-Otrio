@@ -1,3 +1,6 @@
+import flixel.tweens.FlxTween;
+import flixel.tweens.FlxTween.FlxTweenManager;
+import flixel.math.FlxPoint;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
@@ -9,6 +12,12 @@ class Piece extends FlxSprite
 	private var pickedUp:Bool = false;
 	private var locked:Bool = false;
 	private var parentSlot:Slot;
+	private var startPosition:FlxPoint;
+
+	public function setStartPosition(_point:FlxPoint) 
+	{
+		this.startPosition = _point;
+	}
 
 	public function getPieceSize()
 	{
@@ -51,7 +60,7 @@ class Piece extends FlxSprite
 				makeGraphic(_pieceSize, _pieceSize, _color);
 		}
 
-		
+		this.startPosition = new FlxPoint(0,0);
 	}
 
 	public function setLocked(_locked:Bool) 
@@ -111,6 +120,8 @@ class Piece extends FlxSprite
 		this.scale.y = 1;
 
 		// Add drop up sound here
+
+		//if(this.getPosition == this.)
 	}
 
 	public function isDropped()
@@ -132,9 +143,22 @@ class Piece extends FlxSprite
 	{
 		Log.trace("Move to " + Std.string(this.parentSlot.getCenter().x) + "," + Std.string(this.parentSlot.getCenter().y));
 	}
-
+	/*
 	public function moveTo(_PieceSlot:Slot)
 	{
 		Log.trace("Move to " + Std.string(_PieceSlot.getCenter().x) + "," + Std.string(_PieceSlot.getCenter().y));
+	}
+	//*/
+	public function moveToStart()
+	{
+		this.moveTo(this.startPosition);
+	}
+
+	public function moveTo(_point:FlxPoint)
+	{
+		Log.trace("Move to " + Std.string(_point.x) + "," + Std.string(_point.y));
+
+		var _tween:FlxTween = FlxTween.tween(this, { x: _point.x - Std.int(width / 2), y: _point.y - Std.int(height / 2)}, 0.5);
+
 	}
 }
