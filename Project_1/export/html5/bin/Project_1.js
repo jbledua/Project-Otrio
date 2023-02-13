@@ -890,7 +890,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "15";
+	app.meta.h["build"] = "16";
 	app.meta.h["company"] = "HaxeFlixel";
 	app.meta.h["file"] = "Project_1";
 	app.meta.h["name"] = "Project_1";
@@ -8265,7 +8265,7 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 		}
 		var _this = flixel_FlxG.keys.justPressed;
 		if(_this.keyManager.checkStatusUnsafe(82,_this.status)) {
-			this.players.members[this.turnIndex].resetPiceces();
+			this.ResetPieces();
 		}
 		if(flixel_FlxG.mouse._leftButton.current == 2) {
 			var _g = 0;
@@ -8302,7 +8302,7 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 						while(_g4 < _g5) {
 							var k = _g4++;
 							if(_tempBoardSlots.members[k].overlaps(tempPieces.members[j])) {
-								haxe_Log.trace("On Board slot " + k,{ fileName : "source/PlayState.hx", lineNumber : 106, className : "PlayState", methodName : "update"});
+								haxe_Log.trace("On Board slot " + k,{ fileName : "source/PlayState.hx", lineNumber : 107, className : "PlayState", methodName : "update"});
 								if(this.players.members[i].hasPlayerMoved()) {
 									this.players.members[i].setMoved(j);
 									tempPieces.members[j].moveTo(_tempBoardSlots.members[k].getCenter());
@@ -8323,8 +8323,11 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 			}
 		}
 	}
+	,ResetPieces: function() {
+		this.players.members[this.turnIndex].resetPiceces();
+	}
 	,endTurn: function() {
-		haxe_Log.trace("Player " + this.turnIndex,{ fileName : "source/PlayState.hx", lineNumber : 163, className : "PlayState", methodName : "endTurn"});
+		haxe_Log.trace("Player " + this.turnIndex,{ fileName : "source/PlayState.hx", lineNumber : 169, className : "PlayState", methodName : "endTurn"});
 		this.players.members[this.turnIndex].endTurn();
 		if(this.turnIndex < this.players.length - 1) {
 			this.turnIndex++;
@@ -8336,7 +8339,7 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 	}
 	,checkForWin: function() {
 		var _win = false;
-		haxe_Log.trace("Check for Win (Not implemented yet)",{ fileName : "source/PlayState.hx", lineNumber : 186, className : "PlayState", methodName : "checkForWin"});
+		haxe_Log.trace("Check for Win (Not implemented yet)",{ fileName : "source/PlayState.hx", lineNumber : 192, className : "PlayState", methodName : "checkForWin"});
 		return _win;
 	}
 	,getPieces: function() {

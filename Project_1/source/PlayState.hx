@@ -53,7 +53,8 @@ class PlayState extends FlxState
 		// FOR TESTING: Press R to reset pieces
 		if (FlxG.keys.justPressed.R)
 		{
-			this.players.members[this.turnIndex].resetPiceces();
+			//this.players.members[this.turnIndex].resetPiceces();
+			this.resetPieces();
 		}
 
 		if (FlxG.mouse.justPressed)
@@ -156,6 +157,11 @@ class PlayState extends FlxState
 		
 
 	} // End Update
+
+	public function resetPieces() 
+	{
+		this.players.members[this.turnIndex].resetPiceces();
+	}
 
 	public function endTurn()
 	{
