@@ -1,3 +1,5 @@
+import flixel.util.FlxSignal;
+import openfl.Vector;
 import flixel.math.FlxPoint;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import haxe.Log;
@@ -7,6 +9,8 @@ import flixel.FlxSprite;
 class Board extends FlxSprite
 {
     private var slots:FlxTypedGroup<Slot>;
+
+    private var getPieces:FlxSignal;
 
     public function new(x:Float = 0, y:Float = 0)
 	{
@@ -87,5 +91,12 @@ class Board extends FlxSprite
     {
         return this.slots;
     }
-        
+     
+    public function readValues():Array<Array<Array<Int>>>
+    {
+        // Not Functioning yet
+        var _board:Array<Array<Array<Int>>> = [[[-1],[-1],[-1]],[[-1],[-1],[-1]],[[-1],[-1],[-1]]];
+
+        return _board;
+    }
 }

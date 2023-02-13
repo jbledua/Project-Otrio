@@ -105,8 +105,9 @@ class Piece extends FlxSprite
 		{
 			Log.trace("Locked");
 
-			FlxTween.shake(this);
 			// Add Error animation
+			FlxTween.shake(this);
+			
 			// Add error sound here
 		}
 

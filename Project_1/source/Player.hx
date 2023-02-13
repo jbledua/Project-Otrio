@@ -18,6 +18,12 @@ class Player extends FlxSprite
     private var colorBackground:FlxColor;
 
     private var pieceMoved:Int = -1;
+    private var board:Board;
+
+    public function setBoard(_board:Board) 
+    {
+        this.board = _board;
+    }
 
 	public function new(_player:Int ,x:Float = 0, y:Float = 0, _width:Int = 300, _height:Int = 100)
     {
@@ -175,6 +181,8 @@ class Player extends FlxSprite
     {
         Log.trace("Start Turn");
 
+        pieceMoved = -1;
+
         // Unlock all Pieces that are not on the board
         for (i in 0...slots.length)
         {
@@ -210,12 +218,19 @@ class Player extends FlxSprite
         pieceMoved = _index;
     }
 
+    public function getMoved():Int
+    {
+        return pieceMoved;
+    }
+
     public function resetPiceces()
     {
+        pieceMoved = -1;
+
         for (i in 0...pieces.length)
         {
             // Check to see if pieces have been move in previous 
-            if(pieces.members[i].isLocked() == false)
+            if(pieces.members[i].isLocked())
             {
                 pieces.members[i].moveToStart();
             }

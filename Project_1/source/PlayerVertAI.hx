@@ -1,7 +1,7 @@
 import haxe.Log;
 
 // ADD AI to this class
-class PlayerAI extends Player
+class PlayerVertAI extends PlayerVert
 {
     override public function startTurn()
     {
