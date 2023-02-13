@@ -1,3 +1,4 @@
+import flixel.util.FlxSignal;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -13,6 +14,8 @@ class Slot extends FlxSprite
 	private var slotsSizes:Vector<Int>;
 	private var pieces:FlxTypedGroup<Piece>;
 
+	private var checkForPiece:FlxSignal;
+
 	public function new(x:Float = 0, y:Float = 0, _width:Int = 50, _height:Int = 50)
 	{
 		// Move Origin to the center from the top right corner
@@ -27,7 +30,7 @@ class Slot extends FlxSprite
 		
 		}
 
-		this.makeGraphic(_width, _height, FlxColor.CYAN);
+		this.makeGraphic(_width, _height, FlxColor.TRANSPARENT);
 	}
 	public function addPieces(_piece:Piece)
 	{

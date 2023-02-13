@@ -105,6 +105,7 @@ class Piece extends FlxSprite
 		{
 			Log.trace("Locked");
 
+			FlxTween.shake(this);
 			// Add Error animation
 			// Add error sound here
 		}
@@ -158,7 +159,8 @@ class Piece extends FlxSprite
 	{
 		Log.trace("Move to " + Std.string(_point.x) + "," + Std.string(_point.y));
 
-		var _tween:FlxTween = FlxTween.tween(this, { x: _point.x - Std.int(width / 2), y: _point.y - Std.int(height / 2)}, 0.5);
+		// Move Piece to Point
+		FlxTween.tween(this, { x: _point.x - Std.int(width / 2), y: _point.y - Std.int(height / 2)}, 0.5);
 
 	}
 }

@@ -890,7 +890,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "8";
+	app.meta.h["build"] = "13";
 	app.meta.h["company"] = "HaxeFlixel";
 	app.meta.h["file"] = "Project_1";
 	app.meta.h["name"] = "Project_1";
@@ -7512,6 +7512,7 @@ Piece.prototype = $extend(flixel_FlxSprite.prototype,{
 			this.scale.set_y(1.5);
 		} else {
 			haxe_Log.trace("Locked",{ fileName : "source/Piece.hx", lineNumber : 106, className : "Piece", methodName : "onGrab"});
+			flixel_tweens_FlxTween.shake(this);
 		}
 	}
 	,onDrop: function() {
@@ -7523,21 +7524,21 @@ Piece.prototype = $extend(flixel_FlxSprite.prototype,{
 		return this.pickedUp;
 	}
 	,setParentSlot: function(_slot) {
-		haxe_Log.trace("Set Parent",{ fileName : "source/Piece.hx", lineNumber : 134, className : "Piece", methodName : "setParentSlot"});
+		haxe_Log.trace("Set Parent",{ fileName : "source/Piece.hx", lineNumber : 135, className : "Piece", methodName : "setParentSlot"});
 		this.parentSlot = _slot;
 	}
 	,getParentSlot: function() {
 		return this.parentSlot;
 	}
 	,moveToParent: function() {
-		haxe_Log.trace("Move to " + Std.string(this.parentSlot.getCenter().x) + "," + Std.string(this.parentSlot.getCenter().y),{ fileName : "source/Piece.hx", lineNumber : 144, className : "Piece", methodName : "moveToParent"});
+		haxe_Log.trace("Move to " + Std.string(this.parentSlot.getCenter().x) + "," + Std.string(this.parentSlot.getCenter().y),{ fileName : "source/Piece.hx", lineNumber : 145, className : "Piece", methodName : "moveToParent"});
 	}
 	,moveToStart: function() {
 		this.moveTo(this.startPosition);
 	}
 	,moveTo: function(_point) {
-		haxe_Log.trace("Move to " + Std.string(_point.x) + "," + Std.string(_point.y),{ fileName : "source/Piece.hx", lineNumber : 159, className : "Piece", methodName : "moveTo"});
-		var _tween = flixel_tweens_FlxTween.tween(this,{ x : _point.x - (this.get_width() / 2 | 0), y : _point.y - (this.get_height() / 2 | 0)},0.5);
+		haxe_Log.trace("Move to " + Std.string(_point.x) + "," + Std.string(_point.y),{ fileName : "source/Piece.hx", lineNumber : 160, className : "Piece", methodName : "moveTo"});
+		flixel_tweens_FlxTween.tween(this,{ x : _point.x - (this.get_width() / 2 | 0), y : _point.y - (this.get_height() / 2 | 0)},0.5);
 	}
 	,__class__: Piece
 });
@@ -8200,14 +8201,52 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 		this.board = new Board(_screenCenterX,_screenCenterY);
 		this.add(this.board);
 		this.add(this.board.getSlots());
+		var _line1 = new flixel_FlxSprite();
+		_line1.makeGraphic(250,5,-16777216);
+		if(17 == 1 || 17 == 17) {
+			_line1.set_x((flixel_FlxG.width - _line1.get_width()) / 2);
+		}
+		if(17 == 16 || 17 == 17) {
+			_line1.set_y((flixel_FlxG.height - _line1.get_height()) / 2);
+		}
+		_line1.set_y(_line1.y + 50);
+		this.add(_line1);
+		var _line2 = new flixel_FlxSprite();
+		_line2.makeGraphic(250,5,-16777216);
+		if(17 == 1 || 17 == 17) {
+			_line2.set_x((flixel_FlxG.width - _line2.get_width()) / 2);
+		}
+		if(17 == 16 || 17 == 17) {
+			_line2.set_y((flixel_FlxG.height - _line2.get_height()) / 2);
+		}
+		_line2.set_y(_line2.y - 50);
+		this.add(_line2);
+		var _line3 = new flixel_FlxSprite();
+		_line3.makeGraphic(5,250,-16777216);
+		if(17 == 1 || 17 == 17) {
+			_line3.set_x((flixel_FlxG.width - _line3.get_width()) / 2);
+		}
+		if(17 == 16 || 17 == 17) {
+			_line3.set_y((flixel_FlxG.height - _line3.get_height()) / 2);
+		}
+		_line3.set_x(_line3.x + 50);
+		this.add(_line3);
+		var _line4 = new flixel_FlxSprite();
+		_line4.makeGraphic(5,250,-16777216);
+		if(17 == 1 || 17 == 17) {
+			_line4.set_x((flixel_FlxG.width - _line4.get_width()) / 2);
+		}
+		if(17 == 16 || 17 == 17) {
+			_line4.set_y((flixel_FlxG.height - _line4.get_height()) / 2);
+		}
+		_line4.set_x(_line4.x - 50);
+		this.add(_line4);
 		this.players = new flixel_group_FlxTypedGroup(4);
-		this.players.add(new Player(0,_screenCenterX - 200,_screenCenterY));
-		this.players.add(new Player(1,_screenCenterX + 200,_screenCenterY));
-		this.players.add(new Player(2,_screenCenterX,_screenCenterY - 200));
-		this.players.add(new Player(3,_screenCenterX,_screenCenterY + 200));
+		this.players.add(new PlayerVert(0,_screenCenterX - 200,_screenCenterY));
+		this.players.add(new PlayerHorz(1,_screenCenterX,_screenCenterY - 200));
+		this.players.add(new PlayerVert(2,_screenCenterX + 200,_screenCenterY));
+		this.players.add(new PlayerHorz(3,_screenCenterX,_screenCenterY + 200));
 		this.add(this.players);
-		this.players.members[0].setAngle(90);
-		this.players.members[1].setAngle(-90);
 		var _g = 0;
 		var _g1 = this.players.length;
 		while(_g < _g1) {
@@ -8258,9 +8297,14 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 						while(_g4 < _g5) {
 							var k = _g4++;
 							if(_tempBoardSlots.members[k].overlaps(tempPieces.members[j])) {
-								haxe_Log.trace("On Board slot " + k,{ fileName : "source/PlayState.hx", lineNumber : 118, className : "PlayState", methodName : "update"});
-								tempPieces.members[j].moveTo(_tempBoardSlots.members[k].getCenter());
-								pieceMoved = true;
+								haxe_Log.trace("On Board slot " + k,{ fileName : "source/PlayState.hx", lineNumber : 141, className : "PlayState", methodName : "update"});
+								if(this.players.members[i].hasPlayerMoved()) {
+									this.players.members[i].setMoved(j);
+									tempPieces.members[j].moveTo(_tempBoardSlots.members[k].getCenter());
+									pieceMoved = true;
+								} else {
+									tempPieces.members[j].moveToStart();
+								}
 							}
 						}
 						if(pieceMoved == false) {
@@ -8272,7 +8316,7 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 		}
 	}
 	,endTurn: function() {
-		haxe_Log.trace("Player " + this.turnIndex,{ fileName : "source/PlayState.hx", lineNumber : 153, className : "PlayState", methodName : "endTurn"});
+		haxe_Log.trace("Player " + this.turnIndex,{ fileName : "source/PlayState.hx", lineNumber : 187, className : "PlayState", methodName : "endTurn"});
 		this.players.members[this.turnIndex].endTurn();
 		if(this.turnIndex < this.players.length - 1) {
 			this.turnIndex++;
@@ -8342,75 +8386,41 @@ var Player = function(_player,x,y,_width,_height) {
 	if(x == null) {
 		x = 0;
 	}
-	var _color;
-	var _colorLight;
-	var _colorDark;
-	var _colorBackground;
+	this.pieceMoved = -1;
 	flixel_FlxSprite.call(this,x - (_width / 2 | 0),y - (_height / 2 | 0));
 	this.player = _player;
 	switch(_player) {
 	case 0:
-		_colorLight = flixel_util_FlxColor.fromHSB(0,1,1,1);
-		_color = flixel_util_FlxColor.fromHSB(0,1,0.75,1);
-		_colorDark = flixel_util_FlxColor.fromHSB(0,1,0.5,1);
-		_colorBackground = flixel_util_FlxColor.fromHSB(0,1,0.25,1);
+		this.colorLight = flixel_util_FlxColor.fromHSB(0,1,1,1);
+		this.colorPrimary = flixel_util_FlxColor.fromHSB(0,1,0.75,1);
+		this.colorDark = flixel_util_FlxColor.fromHSB(0,1,0.5,1);
+		this.colorBackground = flixel_util_FlxColor.fromHSB(0,1,0.25,1);
 		break;
 	case 1:
-		_colorLight = flixel_util_FlxColor.fromHSB(240,1,1,1);
-		_color = flixel_util_FlxColor.fromHSB(240,1,0.75,1);
-		_colorDark = flixel_util_FlxColor.fromHSB(240,1,0.5,1);
-		_colorBackground = flixel_util_FlxColor.fromHSB(240,1,0.25,1);
+		this.colorLight = flixel_util_FlxColor.fromHSB(240,1,1,1);
+		this.colorPrimary = flixel_util_FlxColor.fromHSB(240,1,0.75,1);
+		this.colorDark = flixel_util_FlxColor.fromHSB(240,1,0.5,1);
+		this.colorBackground = flixel_util_FlxColor.fromHSB(240,1,0.25,1);
 		break;
 	case 2:
-		_colorLight = flixel_util_FlxColor.fromHSB(300,1,1,1);
-		_color = flixel_util_FlxColor.fromHSB(300,1,0.75,1);
-		_colorDark = flixel_util_FlxColor.fromHSB(300,1,0.5,1);
-		_colorBackground = flixel_util_FlxColor.fromHSB(300,1,0.25,1);
+		this.colorLight = flixel_util_FlxColor.fromHSB(300,1,1,1);
+		this.colorPrimary = flixel_util_FlxColor.fromHSB(300,1,0.75,1);
+		this.colorDark = flixel_util_FlxColor.fromHSB(300,1,0.5,1);
+		this.colorBackground = flixel_util_FlxColor.fromHSB(300,1,0.25,1);
 		break;
 	case 3:
-		_colorLight = flixel_util_FlxColor.fromHSB(120,1,1,1);
-		_color = flixel_util_FlxColor.fromHSB(120,1,0.75,1);
-		_colorDark = flixel_util_FlxColor.fromHSB(120,1,0.5,1);
-		_colorBackground = flixel_util_FlxColor.fromHSB(120,1,0.25,1);
+		this.colorLight = flixel_util_FlxColor.fromHSB(120,1,1,1);
+		this.colorPrimary = flixel_util_FlxColor.fromHSB(120,1,0.75,1);
+		this.colorDark = flixel_util_FlxColor.fromHSB(120,1,0.5,1);
+		this.colorBackground = flixel_util_FlxColor.fromHSB(120,1,0.25,1);
 		break;
 	default:
-		_color = -1;
-		_colorLight = -1;
-		_colorDark = -1;
-		_colorBackground = -1;
+		this.colorPrimary = -1;
+		this.colorLight = -1;
+		this.colorDark = -1;
+		this.colorBackground = -1;
 	}
-	this.makeGraphic(_width,_height,_colorBackground);
-	this.slots = new flixel_group_FlxTypedGroup(3);
-	this.slots.add(new Slot(this.getCenter().x - 100,this.getCenter().y));
-	this.slots.add(new Slot(this.getCenter().x,this.getCenter().y));
-	this.slots.add(new Slot(this.getCenter().x + 100,this.getCenter().y));
-	this.pieces = new flixel_group_FlxTypedGroup(9);
-	this.pieces.add(new Piece(2,_colorDark));
-	this.pieces.add(new Piece(2,_colorDark));
-	this.pieces.add(new Piece(2,_colorDark));
-	this.pieces.add(new Piece(1,_color));
-	this.pieces.add(new Piece(1,_color));
-	this.pieces.add(new Piece(1,_color));
-	this.pieces.add(new Piece(0,_colorLight));
-	this.pieces.add(new Piece(0,_colorLight));
-	this.pieces.add(new Piece(0,_colorLight));
-	var _g = 0;
-	var _g1 = this.pieces.length;
-	while(_g < _g1) {
-		var i = _g++;
-		var x = this.slots.members[i % 3].getCenter().x;
-		var y = this.slots.members[i % 3].getCenter().y;
-		if(y == null) {
-			y = 0;
-		}
-		if(x == null) {
-			x = 0;
-		}
-		var this1 = new flixel_math_FlxBasePoint(x,y);
-		var _point = this1;
-		this.pieces.members[i].setPosition(_point.x,_point.y);
-		this.pieces.members[i].setStartPosition(_point);
-	}
+	this.makeGraphic(_width,_height,this.colorBackground);
 };
 $hxClasses["Player"] = Player;
 Player.__name__ = "Player";
@@ -8443,51 +8453,52 @@ Player.prototype = $extend(flixel_FlxSprite.prototype,{
 		}
 		flixel_FlxSprite.prototype.setPosition.call(this,x - (this.get_width() / 2 | 0),y - (this.get_height() / 2 | 0));
 	}
-	,setAngle: function(_angle) {
-		switch(_angle) {
-		case -90:
-			this.set_angle(_angle);
-			this.slots.members[0].setPosition(this.getCenter().x,this.getCenter().y - 100);
-			this.slots.members[2].setPosition(this.getCenter().x,this.getCenter().y + 100);
-			this.pieces.members[0].setPosition(this.getCenter().x,this.getCenter().y - 100);
-			this.pieces.members[2].setPosition(this.getCenter().x,this.getCenter().y + 100);
-			this.pieces.members[3].setPosition(this.getCenter().x,this.getCenter().y - 100);
-			this.pieces.members[5].setPosition(this.getCenter().x,this.getCenter().y + 100);
-			this.pieces.members[6].setPosition(this.getCenter().x,this.getCenter().y - 100);
-			this.pieces.members[8].setPosition(this.getCenter().x,this.getCenter().y + 100);
-			break;
-		case 90:
-			this.set_angle(_angle);
-			this.slots.members[0].setPosition(this.getCenter().x,this.getCenter().y - 100);
-			this.slots.members[2].setPosition(this.getCenter().x,this.getCenter().y + 100);
-			this.pieces.members[0].setPosition(this.getCenter().x,this.getCenter().y - 100);
-			this.pieces.members[2].setPosition(this.getCenter().x,this.getCenter().y + 100);
-			this.pieces.members[3].setPosition(this.getCenter().x,this.getCenter().y - 100);
-			this.pieces.members[5].setPosition(this.getCenter().x,this.getCenter().y + 100);
-			this.pieces.members[6].setPosition(this.getCenter().x,this.getCenter().y - 100);
-			this.pieces.members[8].setPosition(this.getCenter().x,this.getCenter().y + 100);
-			break;
-		default:
-			haxe_Log.trace("Error: Rotation Not handled",{ fileName : "source/Player.hx", lineNumber : 174, className : "Player", methodName : "setAngle"});
-		}
-	}
-	,setColor: function(_color) {
-		this.set_color(_color);
-	}
-	,getColor: function() {
-		return this.color;
-	}
-	,startTurn: function() {
-		haxe_Log.trace("Start Turn",{ fileName : "source/Player.hx", lineNumber : 192, className : "Player", methodName : "startTurn"});
+	,createPieces: function() {
+		this.pieces.add(new Piece(2,this.colorDark));
+		this.pieces.add(new Piece(2,this.colorDark));
+		this.pieces.add(new Piece(2,this.colorDark));
+		this.pieces.add(new Piece(1,this.colorPrimary));
+		this.pieces.add(new Piece(1,this.colorPrimary));
+		this.pieces.add(new Piece(1,this.colorPrimary));
+		this.pieces.add(new Piece(0,this.colorLight));
+		this.pieces.add(new Piece(0,this.colorLight));
+		this.pieces.add(new Piece(0,this.colorLight));
 		var _g = 0;
 		var _g1 = this.pieces.length;
 		while(_g < _g1) {
 			var i = _g++;
-			this.pieces.members[i].setLocked(true);
+			var x = this.slots.members[i % 3].getCenter().x;
+			var y = this.slots.members[i % 3].getCenter().y;
+			if(y == null) {
+				y = 0;
+			}
+			if(x == null) {
+				x = 0;
+			}
+			var this1 = new flixel_math_FlxBasePoint(x,y);
+			var _point = this1;
+			this.pieces.members[i].setPosition(_point.x,_point.y);
+			this.pieces.members[i].setStartPosition(_point);
+		}
+	}
+	,startTurn: function() {
+		haxe_Log.trace("Start Turn",{ fileName : "source/Player.hx", lineNumber : 176, className : "Player", methodName : "startTurn"});
+		var _g = 0;
+		var _g1 = this.slots.length;
+		while(_g < _g1) {
+			var i = _g++;
+			var _g2 = 0;
+			var _g3 = this.pieces.length;
+			while(_g2 < _g3) {
+				var j = _g2++;
+				if(this.slots.members[i].overlaps(this.pieces.members[j])) {
+					this.pieces.members[j].setLocked(true);
+				}
+			}
 		}
 	}
 	,endTurn: function() {
-		haxe_Log.trace("End Turn",{ fileName : "source/Player.hx", lineNumber : 203, className : "Player", methodName : "endTurn"});
+		haxe_Log.trace("End Turn",{ fileName : "source/Player.hx", lineNumber : 194, className : "Player", methodName : "endTurn"});
 		var _g = 0;
 		var _g1 = this.pieces.length;
 		while(_g < _g1) {
@@ -8495,7 +8506,83 @@ Player.prototype = $extend(flixel_FlxSprite.prototype,{
 			this.pieces.members[i].setLocked(false);
 		}
 	}
+	,hasPlayerMoved: function() {
+		return this.pieceMoved < 0;
+	}
+	,setMoved: function(_index) {
+		this.pieceMoved = _index;
+	}
+	,resetPices: function() {
+		var _g = 0;
+		var _g1 = this.pieces.length;
+		while(_g < _g1) {
+			var i = _g++;
+			if(this.pieces.members[i].isLocked() == false) {
+				this.pieces.members[i].moveToStart();
+			}
+		}
+	}
 	,__class__: Player
+});
+var PlayerHorz = function(_player,_x,_y,_width,_height) {
+	if(_height == null) {
+		_height = 100;
+	}
+	if(_width == null) {
+		_width = 300;
+	}
+	if(_y == null) {
+		_y = 0;
+	}
+	if(_x == null) {
+		_x = 0;
+	}
+	Player.call(this,_player,_x,_y,_width,_height);
+	this.slots = new flixel_group_FlxTypedGroup(3);
+	this.createSlots();
+	this.pieces = new flixel_group_FlxTypedGroup(9);
+	Player.prototype.createPieces.call(this);
+};
+$hxClasses["PlayerHorz"] = PlayerHorz;
+PlayerHorz.__name__ = "PlayerHorz";
+PlayerHorz.__super__ = Player;
+PlayerHorz.prototype = $extend(Player.prototype,{
+	createSlots: function() {
+		this.slots.add(new Slot(this.getCenter().x - 100,this.getCenter().y));
+		this.slots.add(new Slot(this.getCenter().x,this.getCenter().y));
+		this.slots.add(new Slot(this.getCenter().x + 100,this.getCenter().y));
+	}
+	,__class__: PlayerHorz
+});
+var PlayerVert = function(_player,_x,_y,_width,_height) {
+	if(_height == null) {
+		_height = 300;
+	}
+	if(_width == null) {
+		_width = 100;
+	}
+	if(_y == null) {
+		_y = 0;
+	}
+	if(_x == null) {
+		_x = 0;
+	}
+	Player.call(this,_player,_x,_y,_width,_height);
+	this.slots = new flixel_group_FlxTypedGroup(3);
+	this.createSlots();
+	this.pieces = new flixel_group_FlxTypedGroup(9);
+	Player.prototype.createPieces.call(this);
+};
+$hxClasses["PlayerVert"] = PlayerVert;
+PlayerVert.__name__ = "PlayerVert";
+PlayerVert.__super__ = Player;
+PlayerVert.prototype = $extend(Player.prototype,{
+	createSlots: function() {
+		this.slots.add(new Slot(this.getCenter().x,this.getCenter().y - 100));
+		this.slots.add(new Slot(this.getCenter().x,this.getCenter().y));
+		this.slots.add(new Slot(this.getCenter().x,this.getCenter().y + 100));
+	}
+	,__class__: PlayerVert
 });
 var Reflect = function() { };
 $hxClasses["Reflect"] = Reflect;
@@ -8638,18 +8725,18 @@ var Slot = function(x,y,_width,_height) {
 	this.slotsSizes.set(0,0);
 	this.slotsSizes.set(1,1);
 	this.slotsSizes.set(2,2);
-	this.makeGraphic(_width,_height,-16711681);
+	this.makeGraphic(_width,_height,0);
 };
 $hxClasses["Slot"] = Slot;
 Slot.__name__ = "Slot";
 Slot.__super__ = flixel_FlxSprite;
 Slot.prototype = $extend(flixel_FlxSprite.prototype,{
 	addPieces: function(_piece) {
-		haxe_Log.trace("Add piece",{ fileName : "source/Slot.hx", lineNumber : 34, className : "Slot", methodName : "addPieces"});
+		haxe_Log.trace("Add piece",{ fileName : "source/Slot.hx", lineNumber : 37, className : "Slot", methodName : "addPieces"});
 		this.pieces.add(_piece);
 	}
 	,removePiece: function(_piece) {
-		haxe_Log.trace("Remove piece",{ fileName : "source/Slot.hx", lineNumber : 40, className : "Slot", methodName : "removePiece"});
+		haxe_Log.trace("Remove piece",{ fileName : "source/Slot.hx", lineNumber : 43, className : "Slot", methodName : "removePiece"});
 		return this.pieces.remove(_piece);
 	}
 	,setColor: function(_color) {
@@ -41351,7 +41438,7 @@ flixel_tweens_FlxTweenManager.prototype = $extend(flixel_FlxBasic.prototype,{
 		}
 		return Tween;
 	}
-	,add_flixel_tweens_misc_ShakeTween: function(Tween,Start) {
+	,add_flixel_tweens_misc_NumTween: function(Tween,Start) {
 		if(Start == null) {
 			Start = false;
 		}
@@ -41364,7 +41451,7 @@ flixel_tweens_FlxTweenManager.prototype = $extend(flixel_FlxBasic.prototype,{
 		}
 		return Tween;
 	}
-	,add_flixel_tweens_misc_NumTween: function(Tween,Start) {
+	,add_flixel_tweens_FlxTween: function(Tween,Start) {
 		if(Start == null) {
 			Start = false;
 		}
@@ -41390,7 +41477,7 @@ flixel_tweens_FlxTweenManager.prototype = $extend(flixel_FlxBasic.prototype,{
 		}
 		return Tween;
 	}
-	,add_flixel_tweens_FlxTween: function(Tween,Start) {
+	,add_flixel_tweens_misc_ShakeTween: function(Tween,Start) {
 		if(Start == null) {
 			Start = false;
 		}
@@ -66670,7 +66757,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 662514;
+	this.version = 766614;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";

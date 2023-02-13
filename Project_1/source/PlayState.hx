@@ -33,17 +33,39 @@ class PlayState extends FlxState
 		add(board);
 		add(board.getSlots());
 
+		// Center Horizontal
+		var _line1:FlxSprite = new FlxSprite();
+		_line1.makeGraphic(250,5,FlxColor.BLACK);
+		_line1.screenCenter();
+		_line1.y = _line1.y + 50;
+		add(_line1);
+
+		var _line2:FlxSprite = new FlxSprite();
+		_line2.makeGraphic(250,5,FlxColor.BLACK);
+		_line2.screenCenter();
+		_line2.y = _line2.y - 50;
+		add(_line2);
+
+		var _line3:FlxSprite = new FlxSprite();
+		_line3.makeGraphic(5,250,FlxColor.BLACK);
+		_line3.screenCenter();
+		_line3.x = _line3.x + 50;
+		add(_line3);
+
+		
+		var _line4:FlxSprite = new FlxSprite();
+		_line4.makeGraphic(5,250,FlxColor.BLACK);
+		_line4.screenCenter();
+		_line4.x = _line4.x - 50;
+		add(_line4);
+
 		// Create Players
 		players = new FlxTypedGroup<Player>(4);
-		players.add(new Player(0,_screenCenterX - 200,_screenCenterY));
-		players.add(new Player(1,_screenCenterX + 200,_screenCenterY));
-		players.add(new Player(2,_screenCenterX ,_screenCenterY - 200));
-		players.add(new Player(3,_screenCenterX ,_screenCenterY + 200));
+		players.add(new PlayerVert(0,_screenCenterX - 200,_screenCenterY));
+		players.add(new PlayerHorz(1,_screenCenterX ,_screenCenterY - 200));
+		players.add(new PlayerVert(2,_screenCenterX + 200,_screenCenterY));
+		players.add(new PlayerHorz(3,_screenCenterX ,_screenCenterY + 200));
 		add(players);
-
-		// Rotate the Left and right players
-		players.members[0].setAngle(90);
-		players.members[1].setAngle(-90);
 
 		// Add all Slot and Pieces from all Players
 		for (i in 0...players.length)
@@ -67,6 +89,7 @@ class PlayState extends FlxState
 			this.endTurn();
 		}
 
+		
 		if (FlxG.mouse.justPressed)
 		{
 			// Add all Slot and Pieces from all Players
@@ -117,10 +140,23 @@ class PlayState extends FlxState
 								// FOR TESTING
 								Log.trace("On Board slot " + k);
 
-								// Move Piece to slot center
-								tempPieces.members[j].moveTo(_tempBoardSlots.members[k].getCenter());
+								if(players.members[i].hasPlayerMoved())
+								{
+									players.members[i].setMoved(j);
 
-								pieceMoved = true;
+									// Move Piece to slot center
+									tempPieces.members[j].moveTo(_tempBoardSlots.members[k].getCenter());
+
+									pieceMoved = true;
+
+								}
+								else 
+								{
+									// Move Piece to slot start
+									tempPieces.members[j].moveToStart();
+								}
+
+								
 
 								//var _sprite:FlxSprite = tempPieces.members[j];
 
@@ -139,8 +175,6 @@ class PlayState extends FlxState
 
 					}
 				}
-
-				
 			}
 		}
 		
