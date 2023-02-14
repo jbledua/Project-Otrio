@@ -24,13 +24,13 @@ class GameOverState extends FlxState
     public function restartGame():Void
     {
         // Restart the game by switching to a new instance of the main game state
-        FlxG.switchState(new MenuState());
+        FlxG.switchState(new PlayerState());
     }
 
     public function returnToMenu():Void
     {
         // Return to the main menu by switching to a new instance of the menu state
-        FlxG.switchState(new MenuState());
+        FlxG.switchState(new PlayerState());
     }
 }
 

@@ -46,6 +46,7 @@ class SplashState extends FlxState
 		FlxTween.color(spaceText, 1, FlxColor.WHITE, FlxColor.RED, {type: PINGPONG});
 
         add(spaceText);
+		
 	}
 	
 	override public function update(elapsed:Float):Void 

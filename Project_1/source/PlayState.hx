@@ -1,5 +1,6 @@
 package;
 
+import flixel.input.mouse.FlxMouseEventManager;
 import flixel.util.FlxSignal;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -37,6 +38,8 @@ class PlayState extends FlxState
 
 		// FOR TESTING: Created an alignemt grid
 		//createAlignGrid();
+		//var _mouseHndlr:FlxMouseEventManager = new FlxMouseEventManager();
+		//_mouseHndlr.add(this.players[0].getPiece(), onGrab, onDrop);
 
 	} // End create
 
@@ -57,6 +60,7 @@ class PlayState extends FlxState
 			this.resetPieces();
 		}
 
+		
 		if (FlxG.mouse.justPressed)
 		{
 			// Add all Slot and Pieces from all Players
@@ -82,6 +86,7 @@ class PlayState extends FlxState
 			}
 		}
 
+		//*
 		if (FlxG.mouse.justReleased)
 		{
 			// Add all Slot and Pieces from all Players
@@ -125,7 +130,7 @@ class PlayState extends FlxState
 									// 	tempPieces.members[j].moveToStart();
 
 									// }
-								}
+								} // End if 
 
 								
 
@@ -134,9 +139,9 @@ class PlayState extends FlxState
 								//tween = FlxTween.tween(sprite, { x:600, y:800 }, 2);
 
 								//var _tween:FlxTween = FlxTween.tween(_sprite, { x: _tempBoardSlots.members[k].getCenter().x, y: _tempBoardSlots.members[k].getCenter().y }, 2.0);
-							}
+							} // End if
 
-						}
+						} // End for k
 
 						if(pieceMoved == false)
 						{
@@ -148,12 +153,13 @@ class PlayState extends FlxState
 								if(players.members[i].getMoved() == turnIndex)
 									players.members[i].setMoved(-1);
 							}
-						}
+						} // End if
 
-					}
-				}
-			}
-		}
+					} // End if
+				} // End for j
+			} // End for i
+		} // End if mouse
+		//*/
 		
 
 	} // End Update
@@ -177,19 +183,22 @@ class PlayState extends FlxState
 		else
 			this.turnIndex = 0;
 
-		this.checkForWin();
+		if(this.checkForWin())
+			FlxG.switchState(new GameOverState());
 
 		// Start Next turn
 		this.players.members[this.turnIndex].startTurn();
 
 	}
 
-	public function checkForWin() 
+	public function checkForWin():Bool 
 	{
 		var _win = false;
 
 		// Add Check for Win Condition here
 		Log.trace("Check for Win (Not implemented yet)");
+
+		//this.board.readValues();
 
 		return _win;
 	}

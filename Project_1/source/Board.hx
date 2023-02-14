@@ -9,6 +9,7 @@ import flixel.FlxSprite;
 class Board extends FlxSprite
 {
     private var slots:FlxTypedGroup<Slot>;
+    private var piece:FlxTypedGroup<Piece>;
 
     private var getPieces:FlxSignal;
 
@@ -95,8 +96,24 @@ class Board extends FlxSprite
     public function readValues():Array<Array<Array<Int>>>
     {
         // Not Functioning yet
-        var _board:Array<Array<Array<Int>>> = [[[-1],[-1],[-1]],[[-1],[-1],[-1]],[[-1],[-1],[-1]]];
+        var _board:Array<Array<Array<Int>>> = [[[-1,-1,-1],[-1,-1,-1],[-1,-1,-1]],[[-1,-1,-1],[-1,-1,-1],[-1,-1,-1]],[[-1,-1,-1],[-1,-1,-1],[-1,-1,-1]]];
+
+        for (i in 0..._board.length)
+        {
+            Log.trace("Level " + i);
+            for (j in 0..._board[i].length)
+            {
+
+                Log.trace(_board[i][j][0] + " " +  _board[i][j][1] + " " +  _board[i][j][2]);
+                
+            }
+        }
 
         return _board;
+    }
+
+    public function addPieces(_piece:Piece) 
+    {
+        this.piece.add(_piece);
     }
 }

@@ -33,7 +33,10 @@ class PlayerState extends FlxState
 		add(button1);
 		add(button2);
 		add(button3);
+		
+		var _temp:Piece = new Piece();
 
+		_temp.doSomething();
 
 		// button1.screenCenter();
 		// button2.screenCenter();

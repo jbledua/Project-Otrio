@@ -1,3 +1,5 @@
+import flixel.input.mouse.FlxMouseEventManager;
+import flixel.text.FlxText;
 import haxe.Log;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -62,10 +64,46 @@ class PlayTwoState extends PlayState
                 add(players.members[i].getSlots());
                 add(players.members[i].getPieces());
             }
+
+
+            var _mouseHndlr:FlxMouseEventManager = new FlxMouseEventManager();
+
+            // for (i in 0...players.length)
+            // {
+            //     var _temp:FlxTypedGroup<Piece> = players.members[i].getPieces();
+
+            //     for (j in 0..._temp.length)
+            //     {
+            //         _mouseHndlr.add(_temp.members[j], mouseUpHndlr, mouseDownHndlr);
+            //     }
+            //     this.players[i].getPieces()
+            //     _mouseHndlr.add(, mouseUpHndlr, mouseDownHndlr);
+            // }
+
+            //var arrayText:FlxText  = new FlxText(0,0,0, ">" + board.readValues(),50);
+            //arrayText.screenCenter();
+            //arrayText.y = 0;
+            //add(arrayText);
+
+            this.board.readValues();
     
             // Start first turn
             Log.trace("Player " + this.turnIndex);
             this.players.members[this.turnIndex].startTurn();
     
         } // End create
+
+        private function mouseDownHndlr(_piece:Piece)
+        {
+            //sprite.
+
+            _piece.onGrab();
+            //Log.trace("Piece Graped ");
+        }
+
+        private function mouseUpHndlr(_piece:Piece)
+        {
+            _piece.onDrop();
+            //Log.trace("Piece Dropped ");
+        }
 }

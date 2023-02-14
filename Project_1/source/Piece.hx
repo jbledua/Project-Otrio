@@ -1,3 +1,4 @@
+import flixel.input.mouse.FlxMouseEventManager;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxTween.FlxTweenManager;
 import flixel.math.FlxPoint;
@@ -61,6 +62,10 @@ class Piece extends FlxSprite
 		}
 
 		this.startPosition = new FlxPoint(0,0);
+
+		//var _mouseHndlr:FlxMouseEventManager = new FlxMouseEventManager();
+
+		//_mouseHndlr.add(this, onGrab, onDrop);
 	}
 
 	public function setLocked(_locked:Bool) 
@@ -90,6 +95,12 @@ class Piece extends FlxSprite
 		//this.setPosition(FlxG.mouse.getPosition().x - Std.int(this.height / 2), FlxG.mouse.getPosition().y - Std.int(this.height / 2));
 	}
 
+	public function doSomething()
+	{
+
+		
+	}
+
 	public function onGrab()
 	{
 		if(this.locked)
@@ -107,6 +118,8 @@ class Piece extends FlxSprite
 
 			// Add Error animation
 			FlxTween.shake(this);
+
+			
 			
 			// Add error sound here
 		}
@@ -136,6 +149,8 @@ class Piece extends FlxSprite
 		Log.trace("Set Parent");
 		this.parentSlot = _slot;
 	}
+
+	
 	public function getParentSlot():Slot
 	{
 		return this.parentSlot;

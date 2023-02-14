@@ -32,11 +32,6 @@ class Player extends FlxSprite
         super(x - Std.int(_width / 2), y - Std.int(_height / 2));
 
         this.player = _player;
-       
-        // var _colorPrimary:FlxColor;
-        // var _colorLight:FlxColor;
-        // var _colorDark:FlxColor;
-        // var _colorBackground:FlxColor;
 
 		// Set the player Color
 		switch _player
@@ -76,8 +71,6 @@ class Player extends FlxSprite
         makeGraphic(_width,_height,colorBackground);
 
     }
-
-
 
     public function getPieces():FlxTypedGroup<Piece>
     {
@@ -121,61 +114,21 @@ class Player extends FlxSprite
 
         for (i in 0...pieces.length)
         {
+            // Add Pieces to the board to be checked later
+            //this.board.addPieces(pieces.members[i]);
+
             var _point:FlxPoint = new FlxPoint(slots.members[i%3].getCenter().x,slots.members[i%3].getCenter().y);
             pieces.members[i].setPosition(_point.x, _point.y);
             pieces.members[i].setStartPosition(_point);
         }
-    }
 
-    /*
-    public function setAngle(_angle:Float)
-    {
-        // This is a terrible solution to rotation because it can only handle 90 and -90
-        // But it works for now
-        switch _angle
-        {
-            case 90:
-                this.angle = _angle;
-                slots.members[0].setPosition(this.getCenter().x, this.getCenter().y - 100);
-                slots.members[2].setPosition(this.getCenter().x, this.getCenter().y + 100);
-
-                pieces.members[0].setPosition(this.getCenter().x, this.getCenter().y - 100);
-                pieces.members[2].setPosition(this.getCenter().x, this.getCenter().y + 100);
-
-                pieces.members[3].setPosition(this.getCenter().x, this.getCenter().y - 100);
-                pieces.members[5].setPosition(this.getCenter().x, this.getCenter().y + 100);
-
-                pieces.members[6].setPosition(this.getCenter().x, this.getCenter().y - 100);
-                pieces.members[8].setPosition(this.getCenter().x, this.getCenter().y + 100);
-            case -90:
-                this.angle = _angle;
-                slots.members[0].setPosition(this.getCenter().x, this.getCenter().y - 100);
-                slots.members[2].setPosition(this.getCenter().x, this.getCenter().y + 100);
-
-                pieces.members[0].setPosition(this.getCenter().x, this.getCenter().y - 100);
-                pieces.members[2].setPosition(this.getCenter().x, this.getCenter().y + 100);
-
-                pieces.members[3].setPosition(this.getCenter().x, this.getCenter().y - 100);
-                pieces.members[5].setPosition(this.getCenter().x, this.getCenter().y + 100);
-
-                pieces.members[6].setPosition(this.getCenter().x, this.getCenter().y - 100);
-                pieces.members[8].setPosition(this.getCenter().x, this.getCenter().y + 100);
-            default:
-                Log.trace("Error: Rotation Not handled");
-        }
         
     }
-    //*/
-    
-    // public function setColor(_color:FlxColor)
-    // {
-    //     this.color = _color;
-    // }
 
-    // public function getColor():FlxColor
-    // {
-    //     return this.color;
-    // }
+    public function onPieceClick()
+    {
+        Log.trace("In Piece");
+    }
 
     public function startTurn()
     {

@@ -11,7 +11,7 @@ class Slot extends FlxSprite
 {
 	private var sprite:FlxSprite;
 
-	private var slotsSizes:Vector<Int>;
+	private var slotsSizes:Array<Int> = [-1,-1,-1];
 	private var pieces:FlxTypedGroup<Piece>;
 
 	private var checkForPiece:FlxSignal;
@@ -21,7 +21,7 @@ class Slot extends FlxSprite
 		// Move Origin to the center from the top right corner
 		super(x - Std.int(_width / 2), y - Std.int(_height / 2));
 
-		slotsSizes = new Vector<Int>(3);
+		//slotsSizes = new Vector<Int>(3);
 		pieces = new FlxTypedGroup<Piece>(3);
 
 		for (i in 0...3)
@@ -32,17 +32,7 @@ class Slot extends FlxSprite
 
 		this.makeGraphic(_width, _height, FlxColor.TRANSPARENT);
 	}
-	public function addPieces(_piece:Piece)
-	{
-		Log.trace("Add piece");
-		pieces.add(_piece);
-	}
-
-	public function removePiece(_piece:Piece):Piece
-	{
-		Log.trace("Remove piece");
-		return pieces.remove(_piece);
-	}
+	
 
 	public function setColor(_color:FlxColor)
 	{
@@ -65,6 +55,24 @@ class Slot extends FlxSprite
 
 	}
 
+	public function hasSpace(_size:Int):Bool
+	{
+		return (slotsSizes[_size] < 0);
+	}
+
+	public function addPieces(_piece:Piece)
+	{
+		//slotsSizes[_piece.getS]
+
+		Log.trace("Add piece");
+		pieces.add(_piece);
+	}
+
+	// public function removePieceAtIndex(_size:Int):Piece
+	// {
+	// 	Log.trace("Remove piece");
+	// 	return pieces.remove();
+	// }
 
 	/*
 	// Needs to be fixed - Look into function Overloading
