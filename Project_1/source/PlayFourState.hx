@@ -50,10 +50,10 @@ class PlayFourState extends PlayState
     
             // Create Players
             players = new FlxTypedGroup<Player>(4);
-            players.add(new PlayerVert(0,_screenCenterX - 200,_screenCenterY));
-            players.add(new PlayerHorz(1,_screenCenterX ,_screenCenterY - 200));
-            players.add(new PlayerVert(2,_screenCenterX  + 200,_screenCenterY));
-            players.add(new PlayerHorz(3,_screenCenterX ,_screenCenterY + 200));
+            players.add(new Player(0,_screenCenterX - 200,_screenCenterY,1));
+            players.add(new Player(1,_screenCenterX ,_screenCenterY - 200,0));
+            players.add(new Player(2,_screenCenterX  + 200,_screenCenterY,1));
+            players.add(new Player(3,_screenCenterX ,_screenCenterY + 200,0));
             add(players);
     
             // Add all Slot and Pieces from all Players

@@ -1,3 +1,4 @@
+import js.html.AbortController;
 import flixel.math.FlxPoint;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -5,8 +6,11 @@ import flixel.util.FlxColor;
 import haxe.Log;
 import flixel.group.FlxGroup.FlxTypedGroup;
 
+
+
 class Player extends FlxSprite
 {
+
     //private var playerColor:FlxColor;
     private var slots:FlxTypedGroup<Slot>;
     private var pieces:FlxTypedGroup<Piece>;
@@ -20,20 +24,85 @@ class Player extends FlxSprite
     private var pieceMoved:Int = -1;
     private var board:Board;
 
+    private var type:Int = 0;
+
     public function setBoard(_board:Board) 
     {
         this.board = _board;
     }
 
-	public function new(_player:Int ,x:Float = 0, y:Float = 0, _width:Int = 300, _height:Int = 100)
+	public function new(_player:Int ,x:Float = 0, y:Float = 0, _type:Int = 0, _width:Int = 300, _height:Int = 100)
     {
 
         // super(x, y);
-        super(x - Std.int(_width / 2), y - Std.int(_height / 2));
+        
 
         this.player = _player;
+        this.type = _type;
 
-		// Set the player Color
+		setColors(_player);
+
+         // Set the player Color
+		switch this.type
+		{
+            case 0:
+                _width = 300;
+                _height = 100;
+            case 1:
+                _width = 100;
+                _height = 300;
+            default:
+                _width = 300;
+                _height = 100;
+        }
+
+        super(x - Std.int(_width / 2), y - Std.int(_height / 2));
+
+        // Replace this with FlxColor.TRANSPARENT or Board Graphic
+        makeGraphic(_width,_height,colorBackground);
+
+        // Creat the game slots
+        slots = new FlxTypedGroup<Slot> (3);
+        createSlots();
+
+        // Creat the game pieces
+        pieces = new FlxTypedGroup<Piece>(9);
+        createPieces();
+
+    }
+
+    
+    private function createSlots() 
+    {
+         // Set the player Color
+		switch this.type 
+		{
+            case 0:
+                // Horizontal Player
+                slots.add(new Slot(this.getCenter().x - 100, this.getCenter().y));
+                slots.add(new Slot(this.getCenter().x, this.getCenter().y));
+                slots.add(new Slot(this.getCenter().x + 100, this.getCenter().y));
+            case 1:
+                // Vertical Player
+                slots.add(new Slot(this.getCenter().x, this.getCenter().y - 100 ));
+                slots.add(new Slot(this.getCenter().x, this.getCenter().y));
+                slots.add(new Slot(this.getCenter().x, this.getCenter().y  + 100));    
+            default:
+                slots.add(new Slot(this.getCenter().x - 100, this.getCenter().y));
+                slots.add(new Slot(this.getCenter().x, this.getCenter().y));
+                slots.add(new Slot(this.getCenter().x + 100, this.getCenter().y));
+        }
+
+    }
+
+    public function setType(_type:Int)
+    {
+        
+    }
+
+    public function setColors(_player:Int)
+    {
+        // Set the player Color
 		switch _player
 		{
 			case 0:
@@ -66,10 +135,6 @@ class Player extends FlxSprite
                 colorDark = FlxColor.WHITE;
                 colorBackground = FlxColor.WHITE;
 		}
-
-        // Replace this with FlxColor.TRANSPARENT or Board Graphic
-        makeGraphic(_width,_height,colorBackground);
-
     }
 
     public function getPieces():FlxTypedGroup<Piece>
@@ -189,4 +254,5 @@ class Player extends FlxSprite
             }
         }
     }
+
 }

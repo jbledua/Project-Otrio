@@ -33,10 +33,7 @@ class PlayerState extends FlxState
 		add(button1);
 		add(button2);
 		add(button3);
-		
-		var _temp:Piece = new Piece();
-
-		_temp.doSomething();
+	
 
 		// button1.screenCenter();
 		// button2.screenCenter();
@@ -60,14 +57,7 @@ class PlayerState extends FlxState
 		// add(buttonGroup);
 
 	}
-
-	private function onButtonClicked():Void 
-	{
-		FlxG.camera.flash(FlxColor.WHITE, 0.33);
-		FlxG.switchState(new GameOverState());
-	}
-
-
+	
 	public function to2Player():Void
 		{
 			// Restart the game by switching to a new instance of the main game state
@@ -83,7 +73,7 @@ class PlayerState extends FlxState
 	public function toAIPlayer():Void
 	{
 		// Restart the game by switching to a new instance of the main game state
-		FlxG.switchState(new PlayOneState());
+		FlxG.switchState(new PlayTicTacToeState());
 	}
 
 	

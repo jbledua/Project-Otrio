@@ -52,8 +52,8 @@ class PlayTwoState extends PlayState
     
             // Create Players
             players = new FlxTypedGroup<Player>(4);
-            players.add(new PlayerVert(0,_screenCenterX - 200,_screenCenterY));
-            players.add(new PlayerVert(1,_screenCenterX + 200,_screenCenterY ));
+            players.add(new Player(0,_screenCenterX - 200,_screenCenterY,1));
+            players.add(new Player(1,_screenCenterX + 200,_screenCenterY,1));
             add(players);
     
             // Add all Slot and Pieces from all Players

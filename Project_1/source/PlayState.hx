@@ -1,5 +1,8 @@
 package;
 
+import flixel.system.FlxSound;
+import flixel.util.FlxAxes;
+import flixel.ui.FlxButton;
 import flixel.input.mouse.FlxMouseEventManager;
 import flixel.util.FlxSignal;
 import flixel.tweens.FlxEase;
@@ -19,9 +22,22 @@ class PlayState extends FlxState
 	private var players:FlxTypedGroup<Player>;
 	private var board:Board;
 
+	var _end:FlxButton;
+	var _return:FlxButton;
+
+	private var music:FlxSound;
+
 	override public function create()
 	{
 		super.create();
+
+		// Not working
+		// if (music == null) // don't restart the music if it's already playing
+		// {
+		// 	music.loadEmbedded(AssetPaths.mainsound__mp3);
+		// 	music.volume = 1; 
+		// 	music.play();
+		// }
 		
 		// Calculate the Center of the sceen
 		var _screenCenterX:Int = Std.int(FlxG.width / 2);
@@ -40,6 +56,19 @@ class PlayState extends FlxState
 		//createAlignGrid();
 		//var _mouseHndlr:FlxMouseEventManager = new FlxMouseEventManager();
 		//_mouseHndlr.add(this.players[0].getPiece(), onGrab, onDrop);
+
+		_end = new FlxButton (_screenCenterX - 300 ,300, "End Turn",endTurn);
+		_return = new FlxButton(_screenCenterX + 300, 300, "Return",resetPieces);
+
+		_end.screenCenter();
+		_end.x += 300;
+		_end.y += 200;
+		_return.screenCenter();
+		_return.x -= 300;
+		_return.y += 200;
+
+		add(_end);
+		add(_return);
 
 	} // End create
 
@@ -61,30 +90,30 @@ class PlayState extends FlxState
 		}
 
 		
-		if (FlxG.mouse.justPressed)
-		{
-			// Add all Slot and Pieces from all Players
-			for (i in 0...players.length)
-			{
+		// if (FlxG.mouse.justPressed)
+		// {
+		// 	// Add all Slot and Pieces from all Players
+		// 	for (i in 0...players.length)
+		// 	{
 
-				var tempPieces = players.members[i].getPieces();
-				var j = tempPieces.length-1;
+		// 		var tempPieces = players.members[i].getPieces();
+		// 		var j = tempPieces.length-1;
 
-				// Check if the mouse clicked any of the pieces
-				// Needs to loop through in reverse to pick up the piece on top
-				while(j >= 0)
-				{
-					if(FlxG.mouse.overlaps(tempPieces.members[j]))
-					{
-						tempPieces.members[j].onGrab();
+		// 		// Check if the mouse clicked any of the pieces
+		// 		// Needs to loop through in reverse to pick up the piece on top
+		// 		while(j >= 0)
+		// 		{
+		// 			if(FlxG.mouse.overlaps(tempPieces.members[j]))
+		// 			{
+		// 				tempPieces.members[j].onGrab();
 
-						// Stop Checking after a piece is picked up
-						break;
-					}
-					j--;
-				}
-			}
-		}
+		// 				// Stop Checking after a piece is picked up
+		// 				break;
+		// 			}
+		// 			j--;
+		// 		}
+		// 	}
+		// }
 
 		//*
 		if (FlxG.mouse.justReleased)

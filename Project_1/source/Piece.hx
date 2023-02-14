@@ -89,16 +89,18 @@ class Piece extends FlxSprite
 	{
 		super.update(elapsed);
 
+		if (FlxG.mouse.justPressed)
+		{
+			if(FlxG.mouse.overlaps(this))
+			{
+				this.onGrab();
+			}
+		}
+
 		if (this.pickedUp)
 			this.setPosition(FlxG.mouse.getPosition().x,FlxG.mouse.getPosition().y);
 			
 		//this.setPosition(FlxG.mouse.getPosition().x - Std.int(this.height / 2), FlxG.mouse.getPosition().y - Std.int(this.height / 2));
-	}
-
-	public function doSomething()
-	{
-
-		
 	}
 
 	public function onGrab()
